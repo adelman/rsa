@@ -1,0 +1,87 @@
+\documentclass[12pt]{article}
+
+\title{COMP 360 Group Project:\\RSA Explorations}
+\author{Matt Adelman, Evan Carmi, Adam Forbes}
+\date{\today}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{lscape}
+\usepackage{pdflscape}
+
+
+\usepackage[margin=1in]{geometry}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{}
+\chead{}
+\rhead{COMP 360: Matt Adelman, Evan Carmi, Adam Forbes}
+\lfoot{}
+\cfoot{\thepage}
+\rfoot{}
+
+\let\cat\frown
+\def\evalto{\mathord{\;\downarrow\;}}
+\def\notdefined{\mathord{\uparrow}}
+\let\parto\rightharpoonup
+\let\vdash\proves
+\def\vlist{$[v]$}
+\def\Gp{\Gamma\proves}
+\def\Gpp{\Gamma'\proves}
+\def\Gppp{\Gamma''\proves}
+\def\fp{\textbf{FUN$+$}}
+\newcommand{\ty}[1]{\texttt{#1}}
+\def\nil{\ty{nil }}
+\newcommand{\rz}{\ty{raise }exn}
+\newcommand{\hndl}[2]{#1\ty{ handle } exn => #2}
+\newcommand{\ttt}[1]{\texttt{#1}}
+\newcommand{\insertt}{\texttt{insert}}
+\newcommand{\insertp}{\texttt{insert'}}
+\newcommand{\wbl}{weight-biased leftist }
+
+
+\def\setseparator{\mid}
+\newcommand{\set}[2][\relax]{
+  \ifx#1\relax
+    \{#2\}
+  \else
+    \ifx#1\left
+      \left\{#2\right\}
+    \else
+      \csname #1l\endcsname\{#2\csname #1r\endcsname\}
+    \fi
+  \fi
+}
+\newcommand{\keys}{\text{keys}}
+\newcommand{\rank}{\text{rank }}
+\newcommand{\setst}[3][\relax]{\set[#1]{#2\setseparator#3}}
+\newcommand{\setidx}[3][\relax]{\set[#1]{#2}_{{#3}}}
+
+\begin{document}
+\maketitle
+
+For the group project, we would like to study the security algorithm RSA. 
+
+1) History
+2) Make our own implementation
+3) Visualization
+4) Common implementation flaws
+5) Fixes for these flaws
+
+Main Goals:
+1) Implementation
+2) Visualization
+3) ``Good Key'' checking
+
+\bigbreak
+
+Our List of primary references is as follows:
+http://en.wikipedia.org/wiki/RSA\_(algorithm)
+
+\end{document}
