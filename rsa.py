@@ -37,7 +37,7 @@ def decrypt(priv_key, cipher):
     message = pow(cipher, d) % n
     return int(message)
 
-# Helper function
+# Helper functions, these probably should be hidden
 # Finds a number relatively prime to n. NOT EFFICIENT!
 def find_rel_prime(n):
     e = random.randint(2, n - 1)
