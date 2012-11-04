@@ -11,21 +11,30 @@ test("gcd", function() {
   ok( gcd(54, 24) === 6, "gcd(54, 24) returns 6");
 });
 
+// For array equality
+function arrays_equal(a,b) { return !(a<b || b<a); }
 
 // To be implemented
 test("egcd", function() {
-  ok( egcd(54, 24) === 6, "extended gcd works correctly");
+  ok( arrays_equal(egcd(54,24), [6,1,-2]), "extended gcd works correctly");
+});
+
+test("egcd", function() {
+  ok( arrays_equal(egcd(54,21), [3,2,-5]), "extended gcd works correctly");
 });
 
 test("mod_inverse", function() {
-  ok( egcd(54, 24) === 6, "mod_inverse works");
+  ok( mod_inverse(8, 19) === 12, "mod_inverse works");
 });
+
 test("encrypt", function() {
-  ok( egcd(54, 24) === 6, "encrypt");
+  ok( encrypt([143, 7], 42) === 81, "encrypt");
 });
+
 test("decrypt", function() {
-  ok( egcd(54, 24) === 6, "decrypt");
+  ok( decrypt([143, 7], 81) === 16, "decrypt");
 });
+
 test("generate_key", function() {
-  ok( egcd(54, 24) === 6, "generate_key");
+  ok( arrays_equal(generate_key(11,13,7), [[143,7],[143,103]]), "generate_key");
 });

@@ -7,6 +7,7 @@
  * @param q - a prime used to create key, distinct from p
  *
  */
+
 function generate_key(p, q, e) {
     if (p === q){
         throw {
@@ -20,10 +21,11 @@ function generate_key(p, q, e) {
 
     d = mod_inverse(e, phi_n);
 
-    return {
-        public_key: [ n, e ],
-        private_key: [ n, d]
-    }
+    // Changed return type for easier equality testing
+    return [
+        [ n, e ], // Public Key
+        [ n, d ]  // Private Key
+    ]
 }
 
 function encrypt(pub_key, message) {
