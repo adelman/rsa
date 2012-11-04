@@ -15,29 +15,36 @@ function generate_key(p, q, e) {
             message: 'p, q must be unique'
         };
     }
+    var p = str2bigInt(p, 10, 0);
+    var q = str2bigInt(q, 10, 0);
+    var e = str2bigInt(e, 10, 0);
 
-    n = p * q;
-    phi_n = (p - 1) * (q - 1); // Calculate Euler's totient function
+    var n = mult(p, q);
 
-    d = mod_inverse(e, phi_n);
+    // Calculate Euler's totient function
+    var phi_n = mult(addInt(p, -1), addInt(q, -1)); 
+    var d = inverseMod(e, phi_n);
 
     // Changed return type for easier equality testing
     return [
-        [ n, e ], // Public Key
-        [ n, d ]  // Private Key
+          [ n, e ], // Public Key
+          [ n, d ]  // Private Key
     ]
 }
 
 function encrypt(pub_key, message) {
-    cipher = Math.pow(message, pub_key[1]) % pub_key[0];
+    cipher = powMod(message, pub_key[1], pub_key[0]);
     return cipher
 }
 
 function decrypt(priv_key, cipher) {
-    message = Math.pow(cipher, priv_key[1]) % priv_key[0];
+    message = powMod(cipher, priv_key[1], priv_key[0]);
     return message
 }
 
+/* No longer necessary with use of big-int library. Perhaps the next step is
+ * to create our own?
+ */
 function gcd(a,b) { 
     if (a === 0) {
         return b

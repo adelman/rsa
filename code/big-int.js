@@ -1435,7 +1435,7 @@ function powMod_(x,y,n) {
     if (!(k2>>=1)) {  //look at next bit of y
       k1--;
       if (k1<0) {
-        mont_(x,one,n,np);
+        mont_(x,int2bigInt(1,1,1),n,np);
         return;
       }
       k2=1<<(bpe-1);
