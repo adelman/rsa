@@ -21,14 +21,14 @@ test("mod_inverse", function() {
 
 // Now uses big ints
 test("encrypt", function() {
-  ok( arrays_equal(encrypt([[143,0], [7, 0]], [42, 0]), [81,0]), "encrypt");
+  deepEqual(encrypt([[143,0], [7, 0]], [42, 0]), [81,0], "encrypt");
 });
 
 test("decrypt", function() {
-  ok( arrays_equal(decrypt([[143, 0], [103,0]], [81, 0]), [42,0]), "decrypt");
+  deepEqual(decrypt([[143, 0], [103,0]], [81, 0]), [42,0], "decrypt");
 });
 
 test("generate_key", function() {
-  ok( arrays_equal(generate_key("11", "13" ,"7"), [[[143 ,0],[7, 0]],
-          [[143, 0],[103, 0]]]), "generate_key");
+  deepEqual(generate_key("11", "13" ,"7"), [[[143 ,0],[7, 0]],
+          [[143, 0],[103, 0]]], "generate_key");
 });
