@@ -50,10 +50,52 @@
 
       <h1>We have some RSA stuff here</h1>
       <p>Use this document as a way to quick start any new project.<br> All you get is this message and a barebones HTML document.</p>
+
+
+      <hr />
+      <form>
+        <fieldset>
+          <legend>
+            <h3>1. Generate a key.</h3>
+            <div class="input-prepend">
+              <span class="add-on">Exponent</span>
+              <input type="text" class="input-small span2" id="appendedPrependedInput" placeholder="5">
+              <span class="add-on offset1">prime <em>p</em></span>
+              <input type="text" class="input-small span2" id="appendedPrependedInput" placeholder="59">
+              <span class="add-on offset1">prime <em>q</em></span>
+              <input type="text" class="input-small span2" id="appendedPrependedInput" placeholder="61">
+            </div>
+            <button id="gen_key" class="btn" type="button">Generate key!</button>
+
+            <br />
+
+            <span>Public key</span>
+            <div class="input-prepend">
+              <span class="add-on">modulus <em>n</em></span>
+              <input type="text" class="input-small span2 offset1" id="appendedPrependedInput" placeholder="5">
+              <span class="add-on">exponent <em>e</em></span>
+              <input type="text" class="input-small span2 offset1" id="appendedPrependedInput" placeholder="5">
+            </div>
+            <span>Public key</span>
+            <div class="input-prepend">
+              <span class="add-on">modulus <em>n</em></span>
+              <input type="text" class="input-small span2 offset1" id="appendedPrependedInput" placeholder="5">
+              <span class="add-on">exponent <em>e</em></span>
+              <input type="text" class="input-small span2 offset1" id="appendedPrependedInput" placeholder="5">
+            </div>
+          </fieldset>
+        </form>
+
+      </div>
+      <hr />
+
+      <div class="input-prepend">
+      </div>
+
+
       <div id="rsa-calc">
         <button id="encrypt" class="btn" type="button">Encrypt!</button>
         <textarea rows="5" id="message" class="span5" placeholder="Message"></textarea>
-
 
 
         <button id="decrypt" class="btn" type="button">Decrypt!</button>
