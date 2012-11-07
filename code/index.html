@@ -22,10 +22,68 @@
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
+<script>
+    function gen(frm) {
+        if (frm.exponent.value === "") {
+            e = frm.exponent.placeholder;
+        }
+        else {
+            e = frm.exponent.value;
+        }
+        if (frm.prime1.value === "") {
+            p = frm.prime1.placeholder;
+        }
+        else {
+            p = frm.prime1.value;
+        }
+        if (frm.prime2.value === "") {
+            q = frm.prime2.placeholder;
+        }
+        else {
+            q = frm.prime2.value;
+        }
+        key = generate_key(p, q, e);
+        n = bigInt2str(key[0][0], 10);
+        d = bigInt2str(key[1][1], 10);
+        frm.mod1.value = n;
+        frm.mod2.value = n;
+        frm.pub.value  = e;
+        frm.priv.value = d;
+    }
+
+    function encrypt2 (frm) {
+        ns = frm.mod1.value;
+        es = frm.pub.value;
+        ms = frm.message.value;
+
+        n = str2bigInt(ns, 10, 0);
+        e = str2bigInt(es, 10, 0);
+        m = str2bigInt(ms, 10, 0);
+
+        c = encrypt([n,e], m);
+
+        frm.cipher.value = bigInt2str(c, 10);
+    }
+
+    function decrypt2 (frm) {
+        ns = frm.mod1.value;
+        ds = frm.priv.value;
+        cs = frm.cipher.value;
+
+        n = str2bigInt(ns, 10, 0);
+        d = str2bigInt(ds, 10, 0);
+        c = str2bigInt(cs, 10, 0);
+
+        m = decrypt([n,d], c);
+
+        frm.message.value = bigInt2str(m, 10);
+    }
+
+</script>   
+
   </head>
 
   <body>
-
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
@@ -53,46 +111,67 @@
 
 
       <hr />
-      <form>
+      <form name="f1">
         <fieldset>
           <legend>
             <h3>1. Generate a key.</h3>
             <div class="input-prepend">
               <span class="add-on">Exponent</span>
-              <input type="text" class="input-small span2" id="appendedPrependedInput" placeholder="5">
+              <input type="text" name="exponent" class="input-small span2"              placeholder="7">
               <span class="add-on offset1">prime <em>p</em></span>
-              <input type="text" class="input-small span2" id="appendedPrependedInput" placeholder="59">
+              <input type="text" class="input-small span2" name="prime1"
+              placeholder="11">
               <span class="add-on offset1">prime <em>q</em></span>
-              <input type="text" class="input-small span2" id="appendedPrependedInput" placeholder="61">
+              <input type="text" class="input-small span2" name="prime2"
+              placeholder="13">
             </div>
-            <button id="gen_key" class="btn" type="button">Generate key!</button>
+            <button id="gen_key" class="btn" type="button"
+                onClick="gen(this.form)">Generate key!</button>
 
             <br />
 
             <span>Public key</span>
             <div class="input-prepend">
               <span class="add-on">modulus <em>n</em></span>
-              <input type="text" class="input-small span2 offset1" id="appendedPrependedInput" placeholder="5">
+              <input type="text" class="input-small span2 offset1" name="mod1" placeholder="5">
               <span class="add-on">exponent <em>e</em></span>
-              <input type="text" class="input-small span2 offset1" id="appendedPrependedInput" placeholder="5">
+              <input type="text" class="input-small span2 offset1" name="pub" placeholder="5">
             </div>
             <span>Public key</span>
             <div class="input-prepend">
               <span class="add-on">modulus <em>n</em></span>
-              <input type="text" class="input-small span2 offset1" id="appendedPrependedInput" placeholder="5">
-              <span class="add-on">exponent <em>e</em></span>
-              <input type="text" class="input-small span2 offset1" id="appendedPrependedInput" placeholder="5">
+              <input type="text" class="input-small span2 offset1" name="mod2" placeholder="5">
+              <span class="add-on">exponent <em>d</em></span>
+              <input type="text" class="input-small span2 offset1" name="priv" placeholder="5">
+          </div>
+
+          <br />
+
+          <h3>2. Encrypt or Decrypt. </h3>
+            <div class="input-prepend">
+              <span class="add-on">Message</span>
+              <input type="text" name="message" class="input-small span2"
+              placeholder="Message">
+            <button id="encr" class="btn" type="button"
+                onClick="encrypt2(this.form)">Encrypt!</button>
+              <span class="add-on offset1">Cipher</span>
+              <input type="text" class="input-small span2" name="cipher"
+              placeholder="Cipher">
+            <button id="decr" class="btn" type="button"
+                onClick="decrypt2(this.form)">Decrypt!</button>
+
             </div>
+
+            <br />
+
+
+
           </fieldset>
         </form>
 
       </div>
       <hr />
-
-      <div class="input-prepend">
-      </div>
-
-
+<!--
       <div id="rsa-calc">
         <button id="encrypt" class="btn" type="button">Encrypt!</button>
         <textarea rows="5" id="message" class="span5" placeholder="Message"></textarea>
@@ -101,7 +180,7 @@
         <button id="decrypt" class="btn" type="button">Decrypt!</button>
         <textarea rows="5" id="cipher" class="span5" placeholder="Cipher"></textarea>
       </div>
-
+      -->
       <h1 id="about">About</h1>
       <p>A final project by Evan Carmi, Matt Adelman, Adam Forbes</p>
 
