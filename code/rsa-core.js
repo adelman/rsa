@@ -33,12 +33,12 @@ function generate_key(p, q, e) {
 }
 
 function encrypt(pub_key, message) {
-    cipher = powMod(message, pub_key[1], pub_key[0]);
+    var cipher = powMod(message, pub_key[1], pub_key[0]);
     return cipher
 }
 
 function decrypt(priv_key, cipher) {
-    message = powMod(cipher, priv_key[1], priv_key[0]);
+    var message = powMod(cipher, priv_key[1], priv_key[0]);
     return message
 }
 
@@ -52,8 +52,8 @@ function gcd(a,b) {
     if (b === 0) {
         return a
     }
-    q = Math.floor(a/b);
-    r = a - (b * q)
+    var q = Math.floor(a/b);
+    var r = a - (b * q)
     if (r === 0) {
         return b
     }
@@ -67,13 +67,13 @@ function egcd(a,b) {
         return [b,0,1]
     }
     else {
-        data = egcd(b % a, a);
+        var data = egcd(b % a, a);
         return [data[0], data[2] - (Math.floor(b/a) * data[1]), data[1]]
     }
 }
 
 function mod_inverse(a, m) {
-    data = egcd(a, m)
+    var data = egcd(a, m)
         if (data[0] != 1) {
             throw {name: 'ArgumentError',
                    message: 'modular inverse does not exist'
