@@ -58,7 +58,7 @@
           <legend>
             <h3>1. Generate a key.</h3>
             <div class="input-prepend">
-              <span class="add-on">Exponent</span>
+                <span class="add-on">Exponent <em>e</em></span>
               <input type="text" name="exponent" class="input-small span2"
               placeholder="7">
               <span class="add-on offset1">prime <em>p</em></span>
@@ -76,20 +76,16 @@
             <span>Public key</span>
             <div class="input-prepend">
               <span class="add-on">modulus <em>n</em></span>
-              <input type="text" class="input-small span2 offset1" name="mod1" 
-              placeholder="5">
+              <input type="text" class="input-small span2 offset1" name="mod1">
               <span class="add-on">exponent <em>e</em></span>
-              <input type="text" class="input-small span2 offset1" name="pub" 
-              placeholder="5">
+              <input type="text" class="input-small span2 offset1" name="pub">
             </div>
             <span>Public key</span>
             <div class="input-prepend">
               <span class="add-on">modulus <em>n</em></span>
-              <input type="text" class="input-small span2 offset1" name="mod2" 
-              placeholder="5">
+              <input type="text" class="input-small span2 offset1" name="mod2">
               <span class="add-on">exponent <em>d</em></span>
-              <input type="text" class="input-small span2 offset1" name="priv" 
-              placeholder="5">
+              <input type="text" class="input-small span2 offset1" name="priv">
           </div>
 
           <br />
@@ -100,12 +96,12 @@
               <input type="text" name="message" class="input-small span2"
               placeholder="Message">
             <button id="encr" class="btn" type="button"
-                onClick="encrypt2(this.form)">Encrypt!</button>
+                onClick="encrypt(this.form)">Encrypt!</button>
               <span class="add-on offset1">Cipher</span>
               <input type="text" class="input-small span2" name="cipher"
               placeholder="Cipher">
             <button id="decr" class="btn" type="button"
-                onClick="decrypt2(this.form)">Decrypt!</button>
+                onClick="decrypt(this.form)">Decrypt!</button>
 
             </div>
 

@@ -23,15 +23,24 @@ function gen(frm) {
         q = frm.prime2.value;
     }
     key = generate_key(p, q, e);
-    n = bigInt2str(key[0][0], 10);
-    d = bigInt2str(key[1][1], 10);
-    frm.mod1.value = n;
-    frm.mod2.value = n;
-    frm.pub.value  = e;
-    frm.priv.value = d;
+    if (key === 0) {
+        frm.prime1.value = "";
+        frm.prime2.value = "";
+    }
+    else if (key === 1) {
+        frm.exponent.value = "";
+    }
+    else {
+        n = bigInt2str(key[0][0], 10);
+        d = bigInt2str(key[1][1], 10);
+        frm.mod1.value = n;
+        frm.mod2.value = n;
+        frm.pub.value  = e;
+        frm.priv.value = d;
+    }
 }
 
-function encrypt2 (frm) {
+function encrypt (frm) {
     ns = frm.mod1.value;
     es = frm.pub.value;
     ms = frm.message.value;
@@ -40,12 +49,17 @@ function encrypt2 (frm) {
     e = str2bigInt(es, 10, 0);
     m = str2bigInt(ms, 10, 0);
 
-    c = encrypt([n,e], m);
+    c = crypt([n,e], m);
 
-    frm.cipher.value = bigInt2str(c, 10);
+    if (c === 0) {
+        frm.message.value = "";
+    }
+    else {
+        frm.cipher.value = bigInt2str(c, 10);
+    }
 }
 
-function decrypt2 (frm) {
+function decrypt (frm) {
     ns = frm.mod1.value;
     ds = frm.priv.value;
     cs = frm.cipher.value;
@@ -54,7 +68,12 @@ function decrypt2 (frm) {
     d = str2bigInt(ds, 10, 0);
     c = str2bigInt(cs, 10, 0);
 
-    m = decrypt([n,d], c);
+    m = crypt([n,d], c);
 
-    frm.message.value = bigInt2str(m, 10);
+    if (m === 0) {
+        frm.cipher.value = "";
+    }
+    else {
+        frm.message.value = bigInt2str(m, 10);
+    }
 }

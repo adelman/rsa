@@ -16,16 +16,17 @@ test("egcd", function() {
 });
 
 test("mod_inverse", function() {
- strictEqual(mod_inverse(8, 19), 12, "mod_inverse works");
+ ok( mod_inverse(8, 19) === 12, "mod_inverse works");
 });
 
 // Now uses big ints
-test("encrypt", function() {
-  deepEqual(encrypt([[143,0], [7, 0]], [42, 0]), [81,0], "encrypt");
+// No idea why a global variable is being introduced
+test("crypt", function() {
+  deepEqual(crypt([[143,0], [7, 0]], [42, 0]), [81,0], "encrypt");
 });
 
-test("decrypt", function() {
-  deepEqual(decrypt([[143, 0], [103,0]], [81, 0]), [42,0], "decrypt");
+test("crypt", function() {
+  deepEqual(crypt([[143, 0], [103,0]], [81, 0]), [42,0], "decrypt");
 });
 
 test("generate_key", function() {
