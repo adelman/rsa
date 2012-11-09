@@ -7,7 +7,6 @@
  * @param q - a prime used to create key, distinct from p
  *
  */
-
 function generate_key(p, q, e) {
     if (p === q){
         alert ("Primes must be distinct.");
@@ -21,9 +20,15 @@ function generate_key(p, q, e) {
         var n = mult(p, q);
 
         // Calculate Euler's totient function
-        var phi_n = mult(addInt(p, -1), addInt(q, -1)); 
+        var phi_n = mult(addInt(p, -1), addInt(q, -1));
+        // Testing correct size
+        if (greater(e, phi_n)) {
+            alert("e must be smaller than (p-1)*(q-1)");
+            return 2;
+        }
         var d = inverseMod(e, phi_n);
 
+        // No inverseMod exists.
         if (d === null) {
             alert("e and (p-1)*(q-1) must be relatively prime.");
             return 1;
