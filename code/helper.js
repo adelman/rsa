@@ -4,21 +4,10 @@
  * Matt Adelman
  */
 
-/*
- * Clears all of the form fields. I'm sure there is a simpler way to do this.  
- */
-function clear1(frm) {
-    frm.exponent.value = "";
-    frm.prime1.value   = "";
-    frm.prime2.value   = "";
-    frm.mod1.value     = "";
-    frm.mod2.value     = "";
-    frm.pub.value      = "";
-    frm.bits.value     = "";
-    frm.priv.value     = "";
-    frm.message.value  = "";
-    frm.cipher.value   = "";
-}
+/* On page load attach event handlers to different buttons */
+$('#rsa-tools button#clear').click(function(){
+      this.form.reset()
+});
 
 /*
  * This is the function the first button calls. It checks that all of the fields
