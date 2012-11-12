@@ -17,26 +17,13 @@ $('#rsa-tools button#clear').click(function(){
  * disticnt, etc.
  */
 function gen(form) {
-    if (form.exponent.value === "") {
-        e = form.exponent.placeholder;
-    }
-    else {
-        e = form.exponent.value;
-    }
-    if (form.prime1.value === "") {
-        p = form.prime1.placeholder;
-    }
-    else {
-        p = form.prime1.value;
-    }
-    if (form.prime2.value === "") {
-        q = form.prime2.placeholder;
-    }
-    else {
-        q = form.prime2.value;
-    }
+    // Get e, p, q, from form, or use placeholder defaults
+    e = form.exponent.value || form.exponent.placeholder;
+    p = form.prime1.value || form.prime1.placeholder
+    q = form.prime2.value || form.prime2.placeholder
 
     key = generate_key(p, q, e);
+
     // Primes aren't distinct
     if (key === 0) {
         form.prime1.value = "";
