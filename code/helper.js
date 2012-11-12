@@ -5,6 +5,8 @@
  */
 
 /* On page load attach event handlers to different buttons */
+
+// Clear function clears its parent form
 $('#rsa-tools button#clear').click(function(){
       this.form.reset()
 });
@@ -14,48 +16,48 @@ $('#rsa-tools button#clear').click(function(){
  * are properly filled in, or uses defaults. It also checks if the primes are 
  * disticnt, etc.
  */
-function gen(frm) {
-    if (frm.exponent.value === "") {
-        e = frm.exponent.placeholder;
+function gen(form) {
+    if (form.exponent.value === "") {
+        e = form.exponent.placeholder;
     }
     else {
-        e = frm.exponent.value;
+        e = form.exponent.value;
     }
-    if (frm.prime1.value === "") {
-        p = frm.prime1.placeholder;
-    }
-    else {
-        p = frm.prime1.value;
-    }
-    if (frm.prime2.value === "") {
-        q = frm.prime2.placeholder;
+    if (form.prime1.value === "") {
+        p = form.prime1.placeholder;
     }
     else {
-        q = frm.prime2.value;
+        p = form.prime1.value;
+    }
+    if (form.prime2.value === "") {
+        q = form.prime2.placeholder;
+    }
+    else {
+        q = form.prime2.value;
     }
 
     key = generate_key(p, q, e);
     // Primes aren't distinct
     if (key === 0) {
-        frm.prime1.value = "";
-        frm.prime2.value = "";
+        form.prime1.value = "";
+        form.prime2.value = "";
     }
     // Mod inverse doesn't exist.
     else if (key === 1) {
-        frm.exponent.value = "";
+        form.exponent.value = "";
     }
     // Exponent is bigger than phi(n).
     else if (key === 2) {
-        frm.exponent.value = "";
+        form.exponent.value = "";
     }
     else {
         // Computation and display.
         n = bigInt2str(key[0][0], 10);
         d = bigInt2str(key[1][1], 10);
-        frm.mod1.value = n;
-        frm.mod2.value = n;
-        frm.pub.value  = e;
-        frm.priv.value = d;
+        form.mod1.value = n;
+        form.mod2.value = n;
+        form.pub.value  = e;
+        form.priv.value = d;
     }
 }
 
@@ -64,17 +66,17 @@ function gen(frm) {
  * length, and this function uses the prime generation of big-int to get prime
  * numbers for them.
  */
-function doEverything(frm) {
-    if (frm.bits.value === "") {
-        b = parseInt(frm.bits.placeholder, 10);
+function doEverything(form) {
+    if (form.bits.value === "") {
+        b = parseInt(form.bits.placeholder, 10);
     }
     else {
-        b = parseInt(frm.bits.value, 10);
+        b = parseInt(form.bits.value, 10);
     }
     // Impossible to have a cipher with less than or equal to 2 bits.
     if (b <= 2) {
         alert("Bit length must be greater than 2");
-        frm.bits.value = "";
+        form.bits.value = "";
     }
     // Create primes.
     else {
@@ -104,25 +106,25 @@ function doEverything(frm) {
     key = generate_key(ps, qs, es);
     
     if (key === 0) {
-        frm.prime1.value = "";
-        frm.prime2.value = "";
+        form.prime1.value = "";
+        form.prime2.value = "";
     }
     // Should never be the case, but just in case.
     else if (key === 1) {
-        frm.exponent.value = "";
+        form.exponent.value = "";
     }
 
     // Display of values.
     else {
         n = bigInt2str(key[0][0], 10);
         d = bigInt2str(key[1][1], 10);
-        frm.exponent.value = es;
-        frm.prime1.value = ps;
-        frm.prime2.value = qs;
-        frm.mod1.value = n;
-        frm.mod2.value = n;
-        frm.pub.value  = es;
-        frm.priv.value = d;
+        form.exponent.value = es;
+        form.prime1.value = ps;
+        form.prime2.value = qs;
+        form.mod1.value = n;
+        form.mod2.value = n;
+        form.pub.value  = es;
+        form.priv.value = d;
     }
 }
 
@@ -130,11 +132,11 @@ function doEverything(frm) {
 /*
  * Calls crypt function with public key and message.
  */
-function encrypt (frm) {
+function encrypt (form) {
     // Getting values.
-    ns = frm.mod1.value;
-    es = frm.pub.value;
-    ms = frm.message.value;
+    ns = form.mod1.value;
+    es = form.pub.value;
+    ms = form.message.value;
 
     n = str2bigInt(ns, 10, 0);
     e = str2bigInt(es, 10, 0);
@@ -145,20 +147,20 @@ function encrypt (frm) {
 
     // Incorrect message size
     if (c === 0) {
-        frm.message.value = "";
+        form.message.value = "";
     }
     else {
-        frm.cipher.value = bigInt2str(c, 10);
+        form.cipher.value = bigInt2str(c, 10);
     }
 }
 
 /*
  * Very similar to encrypt.
  */
-function decrypt (frm) {
-    ns = frm.mod1.value;
-    ds = frm.priv.value;
-    cs = frm.cipher.value;
+function decrypt (form) {
+    ns = form.mod1.value;
+    ds = form.priv.value;
+    cs = form.cipher.value;
 
     n = str2bigInt(ns, 10, 0);
     d = str2bigInt(ds, 10, 0);
@@ -167,9 +169,9 @@ function decrypt (frm) {
     m = crypt([n,d], c);
 
     if (m === 0) {
-        frm.cipher.value = "";
+        form.cipher.value = "";
     }
     else {
-        frm.message.value = bigInt2str(m, 10);
+        form.message.value = bigInt2str(m, 10);
     }
 }
