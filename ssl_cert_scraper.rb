@@ -4,7 +4,7 @@
 # a csv file with a number and host on each line. Ex: 1,google.com.
 # Often useful: http://s3.amazonaws.com/alexa-static/top-1m.csv.zip
 
-HOST_FILE = 'top-1m.csv'
+HOST_FILE = 'unseen.txt'
 PORT = 443
 
 # Directory for downloaded certificates
@@ -19,16 +19,21 @@ DECODED_DIR = 'decoded'
 def cmd_runner(cmd)
   out = `#{cmd}`
   unless $?.success?
-    puts "\n\nERROR\nFailed while running #{cmd} with error: #{out}"
+    puts "\n\n\nERROR\nFailed while running #{cmd} with error: #{out}\n\n\n"
   end
   $?.success?
 end
 
 File.open(HOST_FILE).each_line do |line|
-  num, domain = line.strip.split(',')
+  domain = line.strip
 
   # first check if server responds to https request
-  cmd = "curl -I https://#{domain} --connect-timeout 1 -m 2"
+  cmd = "curl -sI https://#{domain} --connect-timeout 2 -m 2"
+  worked = cmd_runner(cmd)
+  unless worked
+    domain.prepend("www.")
+    cmd = "curl -sI https://#{domain} --connect-timeout 2 -m 2"
+  end
   next unless cmd_runner(cmd)
 
   # download certificate
@@ -42,7 +47,4 @@ File.open(HOST_FILE).each_line do |line|
   cmd3 = "echo '#{domain}' >> downloaded_hosts.txt"
   next unless cmd_runner(cmd3)
 
-
-
 end
-
