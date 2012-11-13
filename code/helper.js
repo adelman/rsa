@@ -11,6 +11,23 @@ $('#rsa-tools button#clear').click(function(){
       this.form.reset()
 });
 
+// Unobtrusive, right?
+$('#rsa-tools button#gen_key').click(function(){
+      gen(this.form)
+});
+
+$('#rsa-tools button#do_it_all').click(function(){
+      doEverything(this.form)
+});
+
+$('#rsa-tools button#encr').click(function(){
+      encrypt(this.form)
+});
+
+$('#rsa-tools button#decr').click(function(){
+      decrypt(this.form)
+});
+
 /*
  * This is the function the first button calls. It checks that all of the fields
  * are properly filled in, or uses defaults. It also checks if the primes are 
