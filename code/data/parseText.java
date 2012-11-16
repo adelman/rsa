@@ -26,11 +26,11 @@ public class parseText {
                 line = br.readLine();
                 
                 //TESTING TESTING
-                System.out.println(line);
+                System.out.println(parse(line, lineNum) +"\n");
                 //TESTING TESTING
                 
                 //We will write the current line to the output file
-                writeLine(pareMePlease(line));
+                //writeLine(parse(line));
                 
                 //Itterate the lineNum variable
                 lineNum++;
@@ -38,13 +38,11 @@ public class parseText {
             
             br.close();            
         } catch (Exception e) {
-            System.out.println("Error! Oh no");
+            System.out.println("************\nError! Oh no\n");
         }
-        
-        
     }
     
-    public static String parseMePlease(String textLine, int lineNum) {
+    public static String parse(String text, int lineNum) {
         /*This method will take as its input a line of text and strip
         away all the none-essential information and leave only the
         four pieces of information outlines in main. Each line contains
@@ -61,17 +59,33 @@ public class parseText {
             1: Line Number
             2: Public modulus
             3: SHA Fingerprint
-            4: Identifying information     */
-            
-        //splitLine is an array of size 70 
-        String[] splitLine = textLine.split(",");
+            4: Identifying information     */       
         
-        String retString = (lineNum + "," + splitLine[10] + "," + 
-            splitLine[2] + "," + splitLine[5])
+        //The text cannot be parsed on commas because there are certain fields
+        //(indentification data) that include commas between quotes meaning
+        //their input is a string. There are two types of fields, strings 
+        //inclosed in quotes and "\N". We resolve it as follows
+        String temp = text.replace("\\N", "\"\\N\"");
+        //By splitting the text on quotes we generate an array of twice the 
+        //size of the original input
+        String[] splitLineReplaced = temp.split("\"");
+        
+        String[] splitLine = new String[70];
+                        
+        int a = 1;
+        
+        //Here the quote deliniated array will only select the text inside 
+        //the quotes
+        for (int i = 0; i < splitLine.length; i++) {
+            splitLine[i] = splitLineReplaced[a];
+            a+=2;
+        }
+        
+        //And finally we put together the information we care about
+        String retString = lineNum + "," + splitLine[9] + "," + splitLine[2] +
+                           "," + splitLine[14].replace(",", "|");        
         
         return retString;
-        
-        
     }
     
     public static void writeLine(String textLine) {
