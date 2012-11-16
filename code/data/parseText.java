@@ -15,18 +15,26 @@ public class parseText {
         Column 4: Identifying information (column O)  */
         
         
-        String fileName = "valid-certs500.csv";
+        String rfileName = "valid-certs.csv";
+        String wfileName = "formatted-certs.scv";
+        int lineNum = 1;
         
         try {
-            BufferedReader br = new BufferedReader(new FileReader(fileName));
-            String line = br.readLine();
-            int lineNum = 1;
+            FileWriter fstream = new FileWriter(wfileName, true);
+            BufferedWriter out = new BufferedWriter(fstream);
+            
+            BufferedReader in = new BufferedReader(new FileReader(rfileName));
+            String line = in.readLine();
         
             while (line != null) {
-                line = br.readLine();
+                line = in.readLine();
                 
                 //TESTING TESTING
-                System.out.println(parse(line, lineNum) +"\n");
+                if (line != null && !line.isEmpty()) {
+                    System.out.println(parse(line, lineNum) +"\n");
+                    out.write(parse(line, lineNum));
+                    out.newLine();
+                }
                 //TESTING TESTING
                 
                 //We will write the current line to the output file
@@ -35,10 +43,12 @@ public class parseText {
                 //Itterate the lineNum variable
                 lineNum++;
             }
-            
-            br.close();            
+            in.close();
+            out.close();
         } catch (Exception e) {
-            System.out.println("************\nError! Oh no\n");
+            System.out.println("*****************************\n" +
+            "ERROR: The File crash on line " + lineNum + 
+            "\n*****************************");
         }
     }
     
