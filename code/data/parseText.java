@@ -8,19 +8,21 @@ public class parseText {
         the fileName string, formatted in the style of the SSL observatory
         dump, parse it, and save a csv in the same folder. The outputted csv
         will have the following columns:
-        
-        Column 1: Line Number
-        Column 2: Public modulus
-        Column 3: SHA Fingerprint
-        Column 4: Identifying information (column O)  */
+                
+        Column 1: SHA Fingerprint
+        Column 2: Unique ID number
+        Column 3: ID Address
+        Column 4: Public Modulus
+        Column 5: The size of the Modulus
+        Column 6: The Signature         */
         
         
         String rfileName = "valid-certs.csv";
-        String wfileName = "formatted-certs.scv";
+        String wfileName = "formatted-certs.csv";
         int lineNum = 1;
         
         try {
-            FileWriter fstream = new FileWriter(wfileName, true);
+            FileWriter fstream = new FileWriter(wfileName, false);
             BufferedWriter out = new BufferedWriter(fstream);
             
             BufferedReader in = new BufferedReader(new FileReader(rfileName));
@@ -29,16 +31,20 @@ public class parseText {
             while (line != null) {
                 line = in.readLine();
                 
-                //TESTING TESTING
                 if (line != null && !line.isEmpty()) {
-                    System.out.println(parse(line, lineNum) +"\n");
-                    out.write(parse(line, lineNum));
+                    //TESTING TESTING
+                    //System.out.println(parse(line) +"\n");
+                    //TESTING TESTING
+                    
+                    //TESTING
+                    if (lineNum%1000 == 0){
+                        System.out.println(lineNum);
+                    }
+                    //TESTING
+                    
+                    out.write(parse(line));
                     out.newLine();
                 }
-                //TESTING TESTING
-                
-                //We will write the current line to the output file
-                //writeLine(parse(line));
                 
                 //Itterate the lineNum variable
                 lineNum++;
@@ -47,29 +53,31 @@ public class parseText {
             out.close();
         } catch (Exception e) {
             System.out.println("*****************************\n" +
-            "ERROR: The File crash on line " + lineNum + 
+            "ERROR: The File crash on line " + (lineNum + 1) + 
             "\n*****************************");
         }
     }
     
-    public static String parse(String text, int lineNum) {
+    public static String parse(String text) {
         /*This method will take as its input a line of text and strip
         away all the none-essential information and leave only the
-        four pieces of information outlines in main. Each line contains
+        pieces of information outlines in main. Each line contains
         70 fields.
         
         input: String textLine
             a line of text with 70 comma delianted fields just asking to
             get their faces parsed.
-        intput: int lineNum
-            the line number that the string was found on
             
         output: String retString
-            a comma deliniated string with four values: 
-            1: Line Number
-            2: Public modulus
-            3: SHA Fingerprint
-            4: Identifying information     */       
+            a comma deliniated string with values: 
+                Column 1: SHA Fingerprint
+                Column 2: Unique ID number
+                Column 3: ID Address
+                Column 4: Public Modulus
+                Column 5: The size of the Modulus
+                Column 6: The Signature         */       
+        
+        String retString = "";
         
         //The text cannot be parsed on commas because there are certain fields
         //(indentification data) that include commas between quotes meaning
@@ -82,25 +90,24 @@ public class parseText {
         
         String[] splitLine = new String[70];
                         
-        int a = 1;
+        if (splitLineReplaced.length == 140) {
+            //Here the quote deliniated array will only select the text inside 
+            //the quotes
+            int a = 1;
+            for (int i = 0; i < splitLine.length; i++) {
+                splitLine[i] = splitLineReplaced[a];
+                a+=2;
+            }
         
-        //Here the quote deliniated array will only select the text inside 
-        //the quotes
-        for (int i = 0; i < splitLine.length; i++) {
-            splitLine[i] = splitLineReplaced[a];
-            a+=2;
+            //And finally we put together the information we care about
+            retString = splitLine[2] + "," + splitLine[3] +
+                               "," + splitLine[4] +"," + splitLine[9] + "," +
+                               splitLine[10] + "," + splitLine[12];   
         }
-        
-        //And finally we put together the information we care about
-        String retString = lineNum + "," + splitLine[9] + "," + splitLine[2] +
-                           "," + splitLine[14].replace(",", "|");        
-        
+        else {
+            retString = "na,na,na,na,na,na";
+        }     
         return retString;
-    }
-    
-    public static void writeLine(String textLine) {
-        /*This method will take a line of formatted text and write it 
-        to the final output file*/
     }
 }
 
