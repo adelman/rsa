@@ -11,7 +11,7 @@ public class parseText {
                 
         Column 1: SHA Fingerprint
         Column 2: Unique ID number
-        Column 3: ID Address
+        Column 3: IP Address
         Column 4: Public Modulus
         Column 5: The size of the Modulus
         Column 6: The Signature         */
@@ -28,26 +28,19 @@ public class parseText {
             BufferedReader in = new BufferedReader(new FileReader(rfileName));
             String line = in.readLine();
         
-            while (line != null) {
-                line = in.readLine();
-                
+            while (line != null) {             
                 if (line != null && !line.isEmpty()) {
-                    //TESTING TESTING
-                    //System.out.println(parse(line) +"\n");
-                    //TESTING TESTING
-                    
                     //TESTING
                     if (lineNum%1000 == 0){
                         System.out.println(lineNum);
                     }
                     //TESTING
-                    
                     out.write(parse(line));
                     out.newLine();
-                }
-                
-                //Itterate the lineNum variable
+                }               
+                //Itterate the lineNum variable and read the next line
                 lineNum++;
+                line = in.readLine();
             }
             in.close();
             out.close();
@@ -59,7 +52,7 @@ public class parseText {
     }
     
     public static String parse(String text) {
-        /*This method will take as its input a line of text and strip
+        /*This function will take as its input a line of text and strip
         away all the none-essential information and leave only the
         pieces of information outlines in main. Each line contains
         70 fields.
@@ -72,7 +65,7 @@ public class parseText {
             a comma deliniated string with values: 
                 Column 1: SHA Fingerprint
                 Column 2: Unique ID number
-                Column 3: ID Address
+                Column 3: IP Address
                 Column 4: Public Modulus
                 Column 5: The size of the Modulus
                 Column 6: The Signature         */       
