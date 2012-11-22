@@ -81,7 +81,7 @@ public class parseText2 {
         
         retString += getSHA(text) + ",";
         retString += "ec" + fileNum + ",";
-        retString += "na,";
+        retString += "1,";
         retString += getMod(text) + ",";
         retString += getModSize(text) + ",";
         retString += getSig(text);
