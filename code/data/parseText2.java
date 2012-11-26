@@ -19,12 +19,12 @@ public class parseText2 {
         between fields and records by new lines.*/
         
         //Enter the location of the files here
-        String directoryLoc = "/home/adam/Desktop/decoded-certs";
-        String wfileName = "formatted-certs-ec.csv";
+        String directoryLoc = "/home/adam/Desktop/decoded";
+        String wfileName = "formatted-certs-all.csv";
         
         final File folder = new File(directoryLoc);
-        int numFiles = folder.listFiles().length;
-        String[] fileList = new String[numFiles];
+        //int numFiles = folder.listFiles().length;
+        //String[] fileList = new String[numFiles];
         int fileNum = 0;
         
         //Populate the fileList array with the contents of each file
@@ -33,10 +33,27 @@ public class parseText2 {
             BufferedWriter out = new BufferedWriter(fstream);
             
             for (final File fileEntry : folder.listFiles()) {
-                fileList[fileNum] = readFile(directoryLoc + "/" + 
-                                    fileEntry.getName());
-                out.write(parse(fileList[fileNum], fileNum));
-                out.newLine();
+                //Testing
+                if (fileNum%1000 == 0){
+                    System.out.println(fileNum);
+                }
+                //Testing
+                
+                String writeMe = readFile(directoryLoc + "/" + 
+                                 fileEntry.getName());
+                
+                //fileList[fileNum] = readFile(directoryLoc + "/" + 
+                //                    fileEntry.getName());
+                                    
+                //There are some cases in which the file is empty, in this case
+                //we will skip the file and not output it. 
+                if (writeMe.length() < 1) {
+                    System.out.println("Empty File: " + fileEntry.getName());
+                }
+                else {
+                    out.write(parse(writeMe, fileNum));
+                    out.newLine();
+                }
                 
                 fileNum++;
             }
@@ -78,13 +95,13 @@ public class parseText2 {
                 Column 6: The Signature         */ 
         
         String retString = "";
-        
+       
         retString += getSHA(text) + ",";
         retString += "ec" + fileNum + ",";
         retString += "1,";
         retString += getMod(text) + ",";
         retString += getModSize(text) + ",";
-        retString += getSig(text);
+        retString += getSig(text); 
         
         /*  1: 6 - "    Signature Algorithm: sha1WithRSAEncryption" 
             2: lineNum concattenated with "ec" + "___"
@@ -121,12 +138,27 @@ public class parseText2 {
             The size of the modulus of the certificate*/
         
         int start = text.indexOf("Public-Key: ");
+        //startFormat identifies the exception
+        int startFormat = 0;
+        if (start == -1) {
+            start = text.indexOf("RSA Public Key: ");
+            startFormat = 1;
+        }
+        
         int end = text.indexOf("\n", start);
         
         //The value 12 is from the length of the string "Public-Key: "
         //The +1 is to avoid the first parenthesis
         //The -4 is to avoid the "bit)"
-        return text.substring(start + 12 + 1, end - 5); 
+        String retString = "";
+        if (startFormat == 0) {
+            retString = text.substring(start + 12 + 1, end - 5);
+        } 
+        //here is the case where the string is 16 characters long
+        else if (startFormat == 1) {
+            retString = text.substring(start + 16 + 1, end - 5);
+        }
+        return retString; 
     } 
     
     public static String getSig(String text) {
