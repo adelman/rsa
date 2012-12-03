@@ -6,6 +6,7 @@
 import java.math.BigInteger;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
+import java.lang.NumberFormatException;
 import java.io.FileReader;
 import java.lang.Long;
 import java.util.StringTokenizer;
@@ -16,13 +17,14 @@ public class HexParser {
 
         int count = 0;
         // Public moduli
-        BigInteger[] keys = new BigInteger[1002];
+        BigInteger[] keys = new BigInteger[1543000];
         // associated data
         String[][] data = new String[keys.length][4];
 
         try {
             // Getting the file
-            String fileName = "/Users/Matt/COMP360/1000certs.csv";
+            String fileName = 
+            "/Users/Matt/GitHub/rsa/csv-db-files/form-certs.csv";
             Scanner file = new Scanner(new FileReader(fileName));
             // Looping through the file
             for (int i = 0; i < keys.length; i++) {
@@ -39,6 +41,8 @@ public class HexParser {
                 keys[count] = big;
                 count++;
             }
+
+            System.out.println("Done Reading!");
 
             // Timing
             Long startTime = new Long(System.currentTimeMillis());
@@ -67,6 +71,10 @@ public class HexParser {
 		// Catching a FileNotFoundException exception
         catch (FileNotFoundException fnfe) {
             System.out.println("File was not found");
+            System.exit(0);
+        }
+        catch (NumberFormatException nfe) {
+            System.out.println(count);
             System.exit(0);
         }
     }
