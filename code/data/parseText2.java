@@ -8,12 +8,13 @@ public class parseText2 {
         decoded certificates from our own website crawler. They will be 
         organized as follows:
         
-        Column 1: SHA Fingerprint
-        Column 2: Unique ID number
-        Column 3: IP Address
-        Column 4: Public Modulus
-        Column 5: The size of the Modulus
-        Column 6: The Signature         
+        Column 1: The Domain Name/file name   
+        Column 2: SHA Fingerprint
+        Column 3: Unique ID number
+        Column 4: IP Address
+        Column 5: Public Modulus
+        Column 6: The size of the Modulus
+        Column 7: The Signature      
         
         The program will output a file in the directory that is comma dilineated
         between fields and records by new lines.*/
@@ -51,10 +52,16 @@ public class parseText2 {
                     System.out.println("Empty File: " + fileEntry.getName());
                 }
                 else {
-                    out.write(parse(writeMe, fileNum));
+                    //The file 108265 causes an error in the program. 
+                    //we will dump that file and maybe this will work.
+                    if (fileNum != 108265) {
+                        out.write(formatDomainName(fileEntry.getName())
+                                  + "," + parse(writeMe, fileNum));
+                        //out.write(fileEntry.getName() + "," + parse(writeMe, fileNum));
+                    }
                     out.newLine();
+                  
                 }
-                
                 fileNum++;
             }
             
@@ -63,6 +70,9 @@ public class parseText2 {
             System.out.println("*****************************\n" +
             "ERROR: The File crash on file " + (fileNum) + 
             "\n*****************************");
+            
+            //Crashed on file 108265
+            //Crashed in the same place...
         }
     }
     
@@ -70,6 +80,24 @@ public class parseText2 {
         for (int i = 0; i < arr.length; i++) {
             System.out.println(arr[i]);
         }
+    }
+    
+    public static String formatDomainName(String name) {
+        /*This function will take a file name and format it to the domain name
+        
+        input: String name
+            a String that represents the domain name the decoded cert file
+            was generated from. It is concatenatted with .cert.decoded
+        output: String retString
+            the formatted string name which is the domain name */
+            
+        String retString = "";
+        int length = name.length();
+        
+        //13 is the length of the string ".cert.decoded"
+        retString = name.substring(0, length - 13);
+        
+        return retString;
     }
    
     public static String parse(String text, int fileNum) {
@@ -87,12 +115,14 @@ public class parseText2 {
             
         output: String retString
             a comma deliniated string with four values: 
-                Column 1: SHA Fingerprint
-                Column 2: Unique ID number
-                Column 3: IP Address
-                Column 4: Public Modulus
-                Column 5: The size of the Modulus
-                Column 6: The Signature         */ 
+                        
+        Column 1: The Domain Name/file name   
+        Column 2: SHA Fingerprint
+        Column 3: Unique ID number
+        Column 4: IP Address
+        Column 5: Public Modulus
+        Column 6: The size of the Modulus
+        Column 7: The Signature          */ 
         
         String retString = "";
        
