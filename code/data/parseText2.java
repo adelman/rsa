@@ -8,23 +8,24 @@ public class parseText2 {
         decoded certificates from our own website crawler. They will be 
         organized as follows:
         
-        Column 1: SHA Fingerprint
-        Column 2: Unique ID number
-        Column 3: IP Address
-        Column 4: Public Modulus
-        Column 5: The size of the Modulus
-        Column 6: The Signature         
+        Column 1: The Domain Name/file name   
+        Column 2: SHA Fingerprint
+        Column 3: Unique ID number
+        Column 4: IP Address
+        Column 5: Public Modulus
+        Column 6: The size of the Modulus
+        Column 7: The Signature      
         
         The program will output a file in the directory that is comma dilineated
         between fields and records by new lines.*/
         
         //Enter the location of the files here
-        String directoryLoc = "/home/adam/Desktop/decoded-certs";
-        String wfileName = "formatted-certs-ec.csv";
+        String directoryLoc = "/home/adam/Desktop/decoded";
+        String wfileName = "formatted-certs-all.csv";
         
         final File folder = new File(directoryLoc);
-        int numFiles = folder.listFiles().length;
-        String[] fileList = new String[numFiles];
+        //int numFiles = folder.listFiles().length;
+        //String[] fileList = new String[numFiles];
         int fileNum = 0;
         
         //Populate the fileList array with the contents of each file
@@ -33,11 +34,34 @@ public class parseText2 {
             BufferedWriter out = new BufferedWriter(fstream);
             
             for (final File fileEntry : folder.listFiles()) {
-                fileList[fileNum] = readFile(directoryLoc + "/" + 
-                                    fileEntry.getName());
-                out.write(parse(fileList[fileNum], fileNum));
-                out.newLine();
+                //Testing
+                if (fileNum%1000 == 0){
+                    System.out.println(fileNum);
+                }
+                //Testing
                 
+                String writeMe = readFile(directoryLoc + "/" + 
+                                 fileEntry.getName());
+                
+                //fileList[fileNum] = readFile(directoryLoc + "/" + 
+                //                    fileEntry.getName());
+                                    
+                //There are some cases in which the file is empty, in this case
+                //we will skip the file and not output it. 
+                if (writeMe.length() < 1) {
+                    System.out.println("Empty File: " + fileEntry.getName());
+                }
+                else {
+                    //The file 108265 causes an error in the program. 
+                    //we will dump that file and maybe this will work.
+                    if (fileNum != 108265) {
+                        out.write(formatDomainName(fileEntry.getName())
+                                  + "," + parse(writeMe, fileNum));
+                        //out.write(fileEntry.getName() + "," + parse(writeMe, fileNum));
+                    }
+                    out.newLine();
+                  
+                }
                 fileNum++;
             }
             
@@ -46,6 +70,9 @@ public class parseText2 {
             System.out.println("*****************************\n" +
             "ERROR: The File crash on file " + (fileNum) + 
             "\n*****************************");
+            
+            //Crashed on file 108265
+            //Crashed in the same place...
         }
     }
     
@@ -53,6 +80,24 @@ public class parseText2 {
         for (int i = 0; i < arr.length; i++) {
             System.out.println(arr[i]);
         }
+    }
+    
+    public static String formatDomainName(String name) {
+        /*This function will take a file name and format it to the domain name
+        
+        input: String name
+            a String that represents the domain name the decoded cert file
+            was generated from. It is concatenatted with .cert.decoded
+        output: String retString
+            the formatted string name which is the domain name */
+            
+        String retString = "";
+        int length = name.length();
+        
+        //13 is the length of the string ".cert.decoded"
+        retString = name.substring(0, length - 13);
+        
+        return retString;
     }
    
     public static String parse(String text, int fileNum) {
@@ -70,21 +115,23 @@ public class parseText2 {
             
         output: String retString
             a comma deliniated string with four values: 
-                Column 1: SHA Fingerprint
-                Column 2: Unique ID number
-                Column 3: IP Address
-                Column 4: Public Modulus
-                Column 5: The size of the Modulus
-                Column 6: The Signature         */ 
+                        
+        Column 1: The Domain Name/file name   
+        Column 2: SHA Fingerprint
+        Column 3: Unique ID number
+        Column 4: IP Address
+        Column 5: Public Modulus
+        Column 6: The size of the Modulus
+        Column 7: The Signature          */ 
         
         String retString = "";
-        
+       
         retString += getSHA(text) + ",";
         retString += "ec" + fileNum + ",";
         retString += "1,";
         retString += getMod(text) + ",";
         retString += getModSize(text) + ",";
-        retString += getSig(text);
+        retString += getSig(text); 
         
         /*  1: 6 - "    Signature Algorithm: sha1WithRSAEncryption" 
             2: lineNum concattenated with "ec" + "___"
@@ -121,12 +168,27 @@ public class parseText2 {
             The size of the modulus of the certificate*/
         
         int start = text.indexOf("Public-Key: ");
+        //startFormat identifies the exception
+        int startFormat = 0;
+        if (start == -1) {
+            start = text.indexOf("RSA Public Key: ");
+            startFormat = 1;
+        }
+        
         int end = text.indexOf("\n", start);
         
         //The value 12 is from the length of the string "Public-Key: "
         //The +1 is to avoid the first parenthesis
         //The -4 is to avoid the "bit)"
-        return text.substring(start + 12 + 1, end - 5); 
+        String retString = "";
+        if (startFormat == 0) {
+            retString = text.substring(start + 12 + 1, end - 5);
+        } 
+        //here is the case where the string is 16 characters long
+        else if (startFormat == 1) {
+            retString = text.substring(start + 16 + 1, end - 5);
+        }
+        return retString; 
     } 
     
     public static String getSig(String text) {

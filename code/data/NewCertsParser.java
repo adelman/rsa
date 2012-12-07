@@ -66,7 +66,10 @@ public class NewCertsParser {
             Long startTime = new Long(System.currentTimeMillis());
             // Pairwise GCD of moduli
             for (int i = 0; i < count1; i++) {
-                for (int j = i + 1; j < count2; j++) {
+              if ((i % 1000) == 0) {
+              System.out.println("Working on i = " + i);
+              }
+                for (int j = 0; j < count2; j++) {
                     BigInteger gcd = keys1[i].gcd(keys2[j]);
                     BigInteger one = BigInteger.ONE;
                     // If the Moduli are equal we get no useful info
