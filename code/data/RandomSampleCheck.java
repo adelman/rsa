@@ -9,9 +9,6 @@ import java.io.FileNotFoundException;
 import java.lang.NumberFormatException;
 import java.lang.StringIndexOutOfBoundsException;
 import java.io.FileReader;
-import java.lang.Long;
-import java.util.StringTokenizer;
-
 
 public class RandomSampleCheck {
 
@@ -42,7 +39,7 @@ public class RandomSampleCheck {
                 //
                 
                 String[] lineScan = line.split(",");
-                data1[i] = lineScan[0]; //id number
+                data1[i] = lineScan[1]; //id number
                 String modulus = lineScan[2];
                 big = new BigInteger(modulus, 16);
                 keys1[count1] = big;
@@ -55,7 +52,7 @@ public class RandomSampleCheck {
                 //
                 
                 String[] lineScan = line.split(",");
-                data2[i] = lineScan[0]; //id number
+                data2[i] = lineScan[1]; //id number
                 String modulus = lineScan[2];
                 big = new BigInteger(modulus, 16);
                 keys2[count2] = big;
