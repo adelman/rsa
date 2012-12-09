@@ -17,7 +17,7 @@ public class RandomSampleCheck {
         int count1 = 0;
         int count2 = 0;
         // Public moduli
-        BigInteger[] keys1 = new BigInteger[10000];
+        BigInteger[] keys1 = new BigInteger[2000];
         BigInteger[] keys2 = new BigInteger[125723];
         // associated data
         String[] data1 = new String[keys1.length];
@@ -27,7 +27,7 @@ public class RandomSampleCheck {
         try {
             // Getting the file
             // Change each time
-            String fileName1 = "random-sample.csv";
+            String fileName1 = "xaa";
             Scanner file1 = new Scanner(new FileReader(fileName1));
             String fileName2 = "new-form-data.csv";
             Scanner file2 = new Scanner(new FileReader(fileName2));

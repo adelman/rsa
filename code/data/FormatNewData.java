@@ -30,12 +30,12 @@ public class FormatNewData {
                 String[] splits = line.split(",");
                 add = add + splits[0] + ",";
                 add = add + splits[2] + ",";
-                add = add + modulus;
+                add = add + modulus + "\n";
                 lines[i] = add;
             }
 
             for (int i = 0; i < lines.length; i++) {
-                System.out.println(lines[i]);
+                System.out.print(lines[i]);
             }
 
         }

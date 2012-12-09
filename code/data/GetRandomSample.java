@@ -31,7 +31,7 @@ public class GetRandomSample {
             // Looping through the file
             for (int i = 0; i < allLines.length; i++) {
                 String line = file.nextLine();
-                allLines[i] = line;
+                allLines[i] = line + "\n";
                 modArr[i] = line.split(",")[2];
             }
         }
@@ -50,7 +50,7 @@ public class GetRandomSample {
         }
         
         for (int i = 0; i < sample.length; i++) {
-            System.out.println(sample[i]);
+            System.out.print(sample[i]);
         }
 
     }
