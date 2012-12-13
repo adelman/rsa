@@ -53,7 +53,8 @@ Matt Adelman\\Evan Carmi\\Adam Forbes
 \begin{@twocolumnfalse}
 
 \begin{abstract}
-  Hello world, this is the abstract.
+  Hello world, this is the abstract.  Hello world, this is the abstract.
+  Hello world, this is the abstract.  Hello world, this is the abstract.  Hello world, this is the abstract.  Hello world, this is the abstract.  Hello world, this is the abstract.  Hello world, this is the abstract.  Hello world, this is the abstract.
 \end{abstract}
 \end{@twocolumnfalse}
 
@@ -65,6 +66,10 @@ Matt Adelman\\Evan Carmi\\Adam Forbes
 \section{Algorithm Implementation:}
 
 \section{Data Collection:}
+Any analysis of RSA certificates requires a set of data with which to test. For our project we needed a large set of data so as to best mimic the data that Lenstra
+et al used in their analysis of public keys. Lenstra et al stated in their paper that they used the Electronic Frontier Foundation's SSL Observatory - https://www.eff.org/observatory. We initially looked at the SSL Observatory as a possibly source of data for our project. However, unfortunately the SSL Observatory has not been updated in a few years. Furthermore, it includes no complete guide on how to use its source, and is simply a collection of python scripts that interact with a MySQL database in distinct ways. Thus, we were unable to successfully use the SSL Observatory source code as a means to gather RSA public keys. However, there exists data dumps from the SSL Observatory from 2010. We gathered this data, available through bittorrent, and used it as a starting point.
+
+In order to see the effectiveness and change since the Lenstra paper was published in early 2012 we needed to scrap for fresh data. (The paper briefly mentions that they latest data they looked at was from February 2012.)
 
 \section{Analysis:}
 
