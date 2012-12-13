@@ -3,9 +3,29 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsfonts}
+\usepackage{listings}
+
+\input{./listings.tex}
+
+
 
 \setcounter{secnumdepth}{2}
 \setcounter{tocdepth}{2}
+
+\lstset{
+    language=c,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    breaklines=true,
+    numberstyle=\tiny,
+    basicstyle=\tiny\sffamily, stepnumber=1, frame=single,
+    numbersep=4pt,
+    tabsize=2,
+    extendedchars=true,
+    numbers=left,
+}
+
 
 
 \usepackage[margin=1in]{geometry}
@@ -104,21 +124,21 @@ https://www.eff.org/observatory. We initially looked at the SSL Observatory as a
 possibly source of data for our project. However, unfortunately the SSL
 Observatory has not been updated in a few years. Furthermore, it includes no
 complete guide on how to use its source, and is simply a collection of python
-scripts that interact with a MySQL database in distinct ways. Thus, we were
+scripts that interact with a \ty{MySQL} database in distinct ways. Thus, we were
 unable to successfully use the SSL Observatory source code as a means to gather
 RSA public keys. However, there exists data dumps from the SSL Observatory from
-2010. We gathered this data, available through bittorrent, and used it as a
+2010. We gathered this data, available through \ty{bittorrent}, and used it as a
 starting point.
 
 In order to see the effectiveness and change since the Lenstra paper was
 published in early 2012 we needed to scrap for fresh data. (The paper briefly
 mentions that the latest data they looked at was from February 2012.) The SSL
-Observatory scans all IPv4 space for servers that respond to https requests. We
+Observatory scans all \ty{IPv4} space for servers that respond to https requests. We
 did not have the computational time/power to do this, so we decided on the Alexa
 top 1 million domains as a source of hosts. Then for each one of these domains
 we attempted to connect via HTTPS and collect the public key used for the
 connection. The specific method of collecting these moduli was the  This was
-done by curl'ing the domain at port 443 with a HTTP request. If we received a
+done by \ty{curl}'ing the domain at port 443 with a \ty{HTTP} request. If we received a
 response, we used \ty{openssl s\_client} to get the decoded certificate and
 \ty{openssl x509} to decode the certificate into a easily passable format.
 However, we noticed that less than 10\% of domains responded to our requests. We
@@ -137,6 +157,10 @@ a moduli. This was the source of our data for our experiments.
 
 \appendix
 \section{Appendix of code:}
+
+
+
+\lstinputlisting[caption=A ruby script that interfaces with unix command line utilities to collect X.509 certificates given a list of hosts.]{ssl_cert_scraper.rb}
 
 
 \end{document}
