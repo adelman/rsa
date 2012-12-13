@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>RSA Experiments</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="RSA experiments">
+    <meta name="author" content="Evan Carmi, Matt Adelman, Adam Forbes">
+
+    <!-- Le styles -->
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/qunit-1.10.0.css">
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+    </style>
+    <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+  </head>
+
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">RSA</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="#contact">Experiments</a></li>
+              <li><a href="#about">About</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <h1>We have some RSA stuff here</h1>
+      <p>Use this document as a way to quick start any new project.<br> All you
+      get is this message and a barebones HTML document.</p>
+
+
+      <hr />
+      <form name="f1" id="rsa-tools">
+        <fieldset>
+          <legend>
+            <h3>1. Generate a key.</h3>
+            <div class="input-prepend">
+                <span class="add-on">Exponent <em>e</em></span>
+              <input type="text" name="exponent" class="input-small span2"
+              placeholder="7">
+              <span class="add-on offset1">prime <em>p</em></span>
+              <input type="text" class="input-small span2" name="prime1"
+              placeholder="11">
+              <span class="add-on offset1">prime <em>q</em></span>
+              <input type="text" class="input-small span2" name="prime2"
+              placeholder="13">
+            </div>
+            <button id="gen_key" class="btn" type="button">Generate key!
+            </button>
+            <br />
+            <h2> -OR- </h2>
+            <h3> 2. Pick a bit length for primes, and we'll take care of the 
+                rest. </h3>
+            <div class="input-prepend">
+                <span class="add-on">Bit Length (> 2)</span>
+              <input type="text" name="bits" class="input-small span2"
+              placeholder="512">
+              <button id="do_it_all" class="btn" type="button">Do Everything!
+              </button>
+        </div>
+
+
+            <br />
+
+            <span>Public key</span>
+            <div class="input-prepend">
+              <span class="add-on">modulus <em>n</em></span>
+              <input type="text" class="input-small span2 offset1" name="mod1">
+              <span class="add-on">exponent <em>e</em></span>
+              <input type="text" class="input-small span2 offset1" name="pub">
+            </div>
+            <span>Private key</span>
+            <div class="input-prepend">
+              <span class="add-on">modulus <em>n</em></span>
+              <input type="text" class="input-small span2 offset1" name="mod2">
+              <span class="add-on">exponent <em>d</em></span>
+              <input type="text" class="input-small span2 offset1" name="priv">
+          </div>
+
+          <br />
+
+          <h3>3. Encrypt or Decrypt. </h3>
+            <div class="input-prepend">
+              <span class="add-on">Message</span>
+              <input type="text" name="message" class="input-small span2"
+              placeholder="Message">
+              <button id="encr" class="btn" type="button">Encrypt!</button>
+              <span class="add-on offset1">Cipher</span>
+              <input type="text" class="input-small span2" name="cipher"
+              placeholder="Cipher">
+            <button id="decr" class="btn" type="button">Decrypt!</button>
+
+        </div>
+
+
+            <br />
+            <button id="clear" class="btn" type="button">Clear everything
+            </button>
+
+
+
+          </fieldset>
+        </form>
+
+    </div>
+
+    <hr />
+
+      <h1 id="about">About</h1>
+      <p>A final project by Evan Carmi, Matt Adelman, Adam Forbes</p>
+
+      <h1 id="tests">Tests</h1>
+      <p>Tests of our algorithms</p>
+      <div id="qunit"></div>
+
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+    <script src="qunit-1.10.0.js"></script>
+    
+    <script src="big-int.js"></script>
+
+    <script src="rsa-core.js"></script>
+
+    <script src="helper.js"></script>
+
+    <script src="tests.js"></script>
+
+  </body>
+</html>
+
+<!--
+      <div id="rsa-calc">
+        <button id="encrypt" class="btn" type="button">Encrypt!</button>
+        <textarea rows="5" id="message" class="span5" placeholder="Message"></textarea>
+
+
+        <button id="decrypt" class="btn" type="button">Decrypt!</button>
+        <textarea rows="5" id="cipher" class="span5" placeholder="Cipher"></textarea>
+      </div>
+      -->
+
