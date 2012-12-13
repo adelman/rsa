@@ -21,6 +21,8 @@
 
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 
+\newcommand{\ty}[1]{\texttt{#1}}
+
 \begin{document}
 
 \begin{titlepage}
@@ -80,7 +82,18 @@ exponential in time.
 \section{Original Ideas:}
 
 \section{Algorithm Implementation:}
-For 
+For our implementation, we chose JavaScript as our environment because of its
+ease for web development. We really wanted to end up with something that we
+could show off and display in a public setting. The code to the implementation
+of our RSA algorithm can be found in Appendix A. For our implementation, we
+relied heavily on the BigInt library found here: 
+http://leemon.com/crypto/BigInt.js.
+While there were other BigInt libraries, out there but this is the one that had
+all of the functions we needed, and was implemented in an easy format for us to
+deal with. The main functions we used from this library were \ty{str2bigInt}
+which takes a string and a base that represents the big integer and converts it
+for us. We also used \ty{inverseMod} which takes a big integer and a modulus as
+a big integer, and returns the big integer that is the inverse if one 
 
 \section{Data Collection:}
 Any analysis of RSA certificates requires a set of data with which to test. For our project we needed a large set of data so as to best mimic the data that Lenstra
