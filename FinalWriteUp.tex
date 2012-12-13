@@ -15,7 +15,7 @@
 \setcounter{tocdepth}{2}
 
 \lstset{
-    language=c,
+    language=ruby,
     showspaces=false,
     showstringspaces=false,
     showtabs=false,
@@ -25,7 +25,7 @@
     numbersep=4pt,
     tabsize=2,
     extendedchars=true,
-    numbers=left,
+    numbers=left
 }
 
 
@@ -197,6 +197,15 @@ in an array, and a unique identifier corresponding to the moduli in another
 array. We then loop through the data comparing every modulus in the smaller file
 with every modulus in the bigger file.
 
+We used Java for our experiments due to speed, and the ease with which we can
+allocate memory to the virtual machine. The default JVM heap space is not large
+enough to read in the files we were working with (some of which were over 100MB)
+so we allocated extra memory with the \ty{java -Xmx2g} option which allocates an
+extra 2GB of data to the virtual machine. We probably did not need this much
+more allocated, but it was just as a precaution.
+
+The algorithm was designed to 
+
 \section{Analysis of Data:}
 
 \section{Problems:}
@@ -212,7 +221,7 @@ with every modulus in the bigger file.
 
 
 
-\lstinputlisting[caption=A ruby script that interfaces with unix command line utilities to collect X.509 certificates given a list of hosts.]{ssl_cert_scraper.rb}
+%\lstinputlisting[caption=A ruby script that interfaces with unix command line utilities to collect X.509 certificates given a list of hosts.]{ssl_cert_scraper.rb}
 
 
 \end{document}
