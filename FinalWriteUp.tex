@@ -115,6 +115,13 @@ which takes a string and a base that represents the big integer and converts it
 for us. We also used \ty{inverseMod} which takes a big integer and a modulus as
 a big integer, and returns the big integer that is the inverse if one 
 
+
+
+To ensure that future changes do not introduce bugs into our already working codebase we use tests. For our JavaScript implementation of RSA we used QUnit tests, a testing framework in JavaScript used by jQuery among others. This allows our tests to be run easily in the browser along side our implementation. If future changes break a function, then the associated test will fail alerting us to the portion of code that is broken.
+
+
+
+
 \section{Data Collection:}
 Any analysis of RSA certificates requires a set of data with which to test. For
 our project we needed a large set of data so as to best mimic the data that
