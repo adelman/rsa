@@ -217,9 +217,33 @@ The algorithm was designed to
 
 \section{Problems:}
 
+Computation Power - The largest problem we encountered was computational power.
+Simply put, we did not have the computing power to analyze all the data we
+gathered. There primary function we wanted to do was run a \ty{GCD} across
+every moduli we encountered. And we couldn't do this in time. There were a few
+methods we took to try and solve this. We split our data into multiple sections
+and ran it across a few different machines. Nonetheless, we were unable to
+process enough data fast enough. We simply needed a compute cluster, or more
+time. At some points we had data running on five different machines.
+
+SSL Observatory - We attempted to contact the EFF SSL Observatory maintainer
+for help getting the Observatory running, and to ask if there was a newer data
+dump than the 2010 data that was on bittorrent. We never received a response.
+It's likely that the not-for-profit EFF didn't have anyone working on the
+project who wanted to help us.
+
 \section{Conclusion:}
 
 \section{Further Research:}
+
+With the data we collected, including the older 2010 data dump from the SSL
+Observatory, we have a large set of moduli. We discussed the possibility of
+creating a service that would check any new moduli against the entire every
+seen set of moduli to ensure there are never duplicates. This would, in effect,
+allow us verify that certificates are safe prior to them being used by
+websites. In fact, we hope that some certificate authorities are already doing
+this to ensure that within their own network of certificates there are no
+duplicates.
 
 %\end{multicols}
 
