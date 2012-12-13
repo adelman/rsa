@@ -1,6 +1,34 @@
-\documentclass[12pt]{article}
+\documentclass[11pt,twoside]{article}
 
-\usepackage[margin=1in]{geometry}
+
+% ------
+% Fonts and typesetting settings
+\usepackage[sc]{mathpazo}
+\usepackage[T1]{fontenc}
+\linespread{1.05} % Palatino needs more space between lines
+\usepackage{microtype}
+
+\usepackage{textcomp}
+
+% ------
+% Page layout
+\usepackage[hmarginratio=1:1,top=32mm,columnsep=30pt,margin=1in]{geometry}
+\usepackage[font=it]{caption}
+\usepackage{multicol}
+
+% ------
+% Lettrines
+\usepackage{lettrine}
+
+
+% ------
+% Abstract
+\usepackage{abstract}
+	\renewcommand{\abstractnamefont}{\normalfont\bfseries}
+	\renewcommand{\abstracttextfont}{\normalfont\small}
+
+\usepackage{titlesec}
+\titleformat{\section}[block]{\large\scshape\centering}{\thesection.}{1em}{}
 
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -9,13 +37,11 @@
 
 \input{./listings.tex}
 
-
-
 \setcounter{secnumdepth}{2}
 \setcounter{tocdepth}{2}
 
 \lstset{
-    language=ruby,
+    language=Java,
     showspaces=false,
     showstringspaces=false,
     showtabs=false,
@@ -78,9 +104,10 @@ Matt Adelman\\Evan Carmi\\Adam Forbes
   Hello world, this is the abstract.  Hello world, this is the abstract.  Hello world, this is the abstract.  Hello world, this is the abstract.  Hello world, this is the abstract.  Hello world, this is the abstract.  Hello world, this is the abstract.
 \end{abstract}
 
-%\begin{multicols}{2}
+\begin{multicols}{2}
 \section{History:}
-RSA is a public key encryption algorithm developed by Ron Rivest, Adi Shamir, 
+\lettrine[nindent=0em,lines=3]{R} SA is a public key encryption algorithm 
+developed by Ron Rivest, Adi Shamir, 
 and Leonard Adleman at MIT in 1977. Rivest and Shamir are both computer
 scientists that were working on an ``unbreakable'' public key encryption method.
 Rivest and Shamir worked on many different codes, and would pose them as a
@@ -89,14 +116,26 @@ them all. Finally on attempty number 43, they created what is now known as the
 RSA scheme. Incidentally, English Professor CLifford Cocks developed the exact
 same encryption system in 1973, but it was classified as top-secret, so it was
 not released until 1997. The RSA algorithm was released for public domain in
-1997.\\
+1997.
+
 The algorithm operates by using two distinct, large prime numbers to generate
 public and private keys. Anyone can use the public key to encrypt a message, but
 only someone with the private key can decrypt it. The algorithm is hard to
 break, because if the prime numbers are large enough, the factorization is
-exponential in time.
+exponential in time. 
 
 \section{Original Ideas:}
+When we first started out with this project, our ideas were fairly
+straightforward. We were going to implement the RSA algorithm in JavaScript, put
+it on a website, and address some of the common implementation issues that cause
+security flaws. A few that we were going to address were timing attacks, public
+exponent flaws and bad prime generation. This is where things got interesting.
+We were given the paper by Lenstra et al ``Ron Was Wrong, Whit Is Right.'' While
+more on this paper will be addressed in the next section, the experiments
+performed by Lenstra exposed how big of an issue bad prime generation was. Our
+goal then shifted away from rigorous implementation, although we still did
+create a sufficient implementation, to recreating the experiments from the paper
+and attempting to find some bad moduli of our own.
 
 \section{Lit Review:}
 
@@ -126,7 +165,7 @@ computation of $\phi(n)$. The functions we created are as follows:
 public exponent all represented as strings. We then return $n$ which is the
 modulus, with $n = pq$. Together with $e$ the public exponent and $d$ the
 private exponent. These together make up our keys. The second function we
-created is \ty{crypt(key:[BigInt,BigInt], message:BigInt) = message':BigInt}
+created is \ty{crypt(key:[BigInt,BigInt], message:BigInt) = message$'$:BigInt}
 where the $key$ is a modulus with an exponent, and the $message$ is something to
 be encrypted or decrypted depending on what $key$ with which we call \ty{crypt}.
 
@@ -141,30 +180,25 @@ errors such as bad public exponents, or if the public exponent is not relatively
 prime to $\phi(n)$. We also have functions to encrypt and decrypt messages given
 that we have public and private keys entered into our form.
 
-We also wrote a testing suite for our JavaScript implementation to make sure it
-was sane. This included minor tests for generation, encryption, decryption, and
+To ensure that future changes do not introduce bugs into our already working
+codebase we use tests. For our JavaScript implementation of RSA we used QUnit
+tests, a testing framework in JavaScript used by jQuery among others. This
+allows our tests to be run easily in the browser along side our implementation.
+If future changes break a function, then the associated test will fail alerting
+us to the portion of code that is broken.  
+This included minor tests for generation, encryption, decryption, and
 even a few number theory functions which were in our original implementation of
 the RSA algorithm that only worked on integers. This is actually when we
 realized we needed to switch to arbitrary precision integers, because the
 exponents get very large, very quickly.
 
-
-
-
-
-
-To ensure that future changes do not introduce bugs into our already working codebase we use tests. For our JavaScript implementation of RSA we used QUnit tests, a testing framework in JavaScript used by jQuery among others. This allows our tests to be run easily in the browser along side our implementation. If future changes break a function, then the associated test will fail alerting us to the portion of code that is broken.
-
-
-
-
 \section{Data Collection:}
 Any analysis of RSA certificates requires a set of data with which to test. For
 our project we needed a large set of data so as to best mimic the data that
-Lenstra et al used in their analysis of public keys. Lenstra et al stated in their paper
-that they used the Electronic Frontier Foundation's SSL Observatory -
-https://www.eff.org/observatory. We initially looked at the SSL Observatory as a
-possibly source of data for our project. However, unfortunately the SSL
+Lenstra et al used in their analysis of public keys. Lenstra et al stated in 
+their paper that they used the Electronic Frontier Foundation's SSL Observatory
+- https://www.eff.org/observatory. We initially looked at the SSL Observatory as
+a possibly source of data for our project. However, unfortunately the SSL
 Observatory has not been updated in a few years. Furthermore, it includes no
 complete guide on how to use its source, and is simply a collection of python
 scripts that interact with a \ty{MySQL} database in distinct ways. Thus, we were
@@ -176,12 +210,14 @@ starting point.
 In order to see the effectiveness and change since the Lenstra paper was
 published in early 2012 we needed to scrap for fresh data. (The paper briefly
 mentions that the latest data they looked at was from February 2012.) The SSL
-Observatory scans all \ty{IPv4} space for servers that respond to https requests. We
+Observatory scans all \ty{IPv4} space for servers that respond to https 
+requests. We
 did not have the computational time/power to do this, so we decided on the Alexa
 top 1 million domains as a source of hosts. Then for each one of these domains
 we attempted to connect via HTTPS and collect the public key used for the
 connection. The specific method of collecting these moduli was the  This was
-done by \ty{curl}'ing the domain at port 443 with a \ty{HTTP} request. If we received a
+done by \ty{curl}'ing the domain at port 443 with a \ty{HTTP} request. If we 
+received a
 response, we used \ty{openssl s\_client} to get the decoded certificate and
 \ty{openssl x509} to decode the certificate into a easily passable format.
 However, we noticed that less than 10\% of domains responded to our requests. We
@@ -189,6 +225,27 @@ added some further error handling for these situations. We followed redirects
 and tried a few common subdomains to improve our rate of responses to over 12\%.
 Out of the 1000000 domains we received 125723 X.509 certificates each containing
 a moduli. This was the source of our data for our experiments.
+
+Once we had all of this data, we first needed to put it into a usable format:
+%%%%FORBES TALKS ABOUT THAT%%%%
+
+Once we had all of the certs in a csv file. The next step was to parse out the
+information we needed. Since the modulus was in a different column for each cert
+file, therefore it was in a different column for each line in the csv file.
+However, there was the unique character pattern ``$)$Modulus $($'' on each line
+of the file. Therefore we could match for that using the \ty{substring} method 
+of the \ty{String} class in Java. Once we had that, we stripped the modulus of 
+all extraneous characters such as white space and colons. Then since all of the
+other information we needed in the csv file was before the modulus, we just used
+a \ty{split(``,'')} on the line to split around commas and easily obtained the
+domain name, and a unique identifier for each modulus.
+
+Finally we needed code to create a random sample of moduli to more swiftly run
+an analysis on. We also wanted to make sure that these moduli were unique. We
+did this by looping through and adding the moduli we chose to a set to make sure
+we never chose two that were the same. The parsing and random sample getting
+code is seen in Appendix A.
+
 
 \section{Experiments:}
 The main idea of our experiments is as follows: if we have two moduli $m, n$ we
@@ -211,7 +268,14 @@ so we allocated extra memory with the \ty{java -Xmx2g} option which allocates an
 extra 2GB of data to the virtual machine. We probably did not need this much
 more allocated, but it was just as a precaution.
 
-The algorithm was designed to 
+The algorithm was designed to overlook all of moduli that are the same, because
+while that is interesting information, it gave us no additional data. If the
+algorithm came across two moduli $n,m$ such that $n \neq m$ and $\gcd(n,m) \neq
+1$ then we know we have a prime in common and have factored the modulus,
+rendering it insecure. Once it finds one, it prints out the $\gcd$, the unique
+identifier for each modulus and the result of calling \ty{isProbablePrime(80)}
+which returns true if there is less than a $2^{-80}$ chance that the $\gcd$ is
+composite. We then can use this data to try and factor the modulus.
 
 \section{Analysis of Data:}
 
@@ -219,7 +283,7 @@ The algorithm was designed to
 
 Computation Power - The largest problem we encountered was computational power.
 Simply put, we did not have the computing power to analyze all the data we
-gathered. There primary function we wanted to do was run a \ty{GCD} across
+gathered. There primary function we wanted to do was run a $\gcd$ across
 every moduli we encountered. And we couldn't do this in time. There were a few
 methods we took to try and solve this. We split our data into multiple sections
 and ran it across a few different machines. Nonetheless, we were unable to
@@ -232,6 +296,15 @@ dump than the 2010 data that was on bittorrent. We never received a response.
 It's likely that the not-for-profit EFF didn't have anyone working on the
 project who wanted to help us.
 
+Same Moduli - Something we did not expect but ran into quite frequently were the
+existence of many moduli that were the same. For instance out of the 125723
+moduli that we collected, just over 104000 were unique. Therefore around 18\% of
+the moduli we collected were not unique. In addition, around 10\% of that was
+all from the same domain $*$.googleusercontent.com. The implication of this is
+that we could not run as many comparisons as we would have liked, because we
+had to throw out a lot of same data. The fact that Google uses the same moduli
+for so many of its domains really speaks to the security of this algorithm
+
 \section{Conclusion:}
 
 \section{Further Research:}
@@ -243,82 +316,28 @@ seen set of moduli to ensure there are never duplicates. This would, in effect,
 allow us verify that certificates are safe prior to them being used by
 websites. In fact, we hope that some certificate authorities are already doing
 this to ensure that within their own network of certificates there are no
-duplicates.
+duplicates. The fact that $\gcd$ is so fast makes a database, and a test like
+this incredibly feasible.
 
-%\end{multicols}
+\end{multicols}
 
 \appendix
 \section{Appendix of code:}
 
+\lstinputlisting[caption=A ruby script that interfaces with unix command line
+utilities to collect X.509 certificates given a list of hosts.,language=ruby]
+{ssl_cert_scraper.rb}
 
+\lstinputlisting[caption=A Java class that takes the csv file of certs and
+extracts all the useful information.,language=Java]
+{code/data/FormatNewData.java}
 
-\lstinputlisting[caption=A ruby script that interfaces with unix command line utilities to collect X.509 certificates given a list of hosts.]{ssl_cert_scraper.rb}
+\lstinputlisting[caption=A Java class to get the random sample of moduli.
+,language=Java] {code/data/GetRandomSample.java}
+
+\lstinputlisting[caption=A Java class that reads in two files containing our
+moduli and other information and prints out a prime if we find one between two
+moduli.,language=Java]{code/data/RandomSampleCheck.java}
 
 
 \end{document}
-
-Abstract (All):
-
-History (Matt):
-
-Lit Review (Adam):
- - RWWWIR
-
-Original ideas:
-
-Algorithm Implementaion (Matt):
- - What we did
- - Big int package used
- - Why web implementaion
-
-Data collection (Evan):
-- SSL observatoru 2010
-- new data collection
-- parsig new data
-- analysing new data (and old data)
-
-analysis
-
-conclusion, things to do better
-
-further research/work
-   - database of moduli that you can check on
-
-- code
-
-
-
-Possible tables and graphs
-- top ten shared moduli
-- number of new data collected
-    - distribution of key size
--Time complexity of expected vs. actual
-
-
-
-% ------
-% Fonts and typesetting settings
-\usepackage[sc]{mathpazo}
-\usepackage[T1]{fontenc}
-\linespread{1.05} % Palatino needs more space between lines
-\usepackage{microtype}
-
-
-% ------
-% Page layout
-\usepackage[hmarginratio=1:1,top=32mm,columnsep=30pt,margin=1in]{geometry}
-\usepackage[font=it]{caption}
-\usepackage{paralist}
-\usepackage{multicol}
-
-% ------
-% Lettrines
-\usepackage{lettrine}
-
-
-% ------
-% Abstract
-\usepackage{abstract}
-	\renewcommand{\abstractnamefont}{\normalfont\bfseries}
-	\renewcommand{\abstracttextfont}{\normalfont\small\itshape}
-
