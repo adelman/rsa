@@ -326,8 +326,10 @@ which returns true if there is less than a $2^{-80}$ chance that the $\gcd$ is
 composite. We then can use this data to try and factor the modulus.
 
 \section{Analysis of Data:}
-Using the results of Lenstra et al. we shall attempt to analyze the significance
-of our analysis. Here is a summary of both of our analysis:
+Using the results of Lenstra we analyzed the significance
+of our findings. Here is a summary of both of our analyses:
+
+\break
 
 \textbf{Lenstra et al.}
 \begin{compactitem}
@@ -348,7 +350,7 @@ of our analysis. Here is a summary of both of our analysis:
 These results are reassuring. They show that out of the 105984 distinct RSA
 moduli observed by our scraping we could not find any that were compromised.
 Unfortunately, due to a lack of time and resources (we ran analysis on six
-computers for approximately two weeks) we were only able to verify around 60 000
+computers for approximately two weeks) we were only able to verify around 60000
 of the moduli against the set of 105984. Our analysis is ongoing and therefore
 60000 is constantly increasing. 
 
@@ -406,7 +408,7 @@ selection from the first array.
 \end{compactitem}
 This program was run 100000 times and found that, on average, there are 8.188
 pairs in the second array. Meaning that we should expect to find at 8 pairs in
-our dataset – a fact we did not. Now that we know we should expect 8 pairs in 
+our dataset - a fact we did not. Now that we know we should expect 8 pairs in 
 our dataset we need to calculate the probability of our findings. This code is
 seen in Appendix A.
 
@@ -458,7 +460,7 @@ say with 98\% confidence that our findings show an improvement in RSA security
 because we were unable to find any broken moduli.
 
 One possible explanation for this can be found in the bias of our domain names.
-We scraped from the top million most trafficked websites online, and therefore
+We scraped from the top 1 million most trafficked websites online, and therefore
 one can hypothesize that there is a lot of overlap between this list and the
 list of most maintained websites online. The highest probability of finding a
 bad modulus may lie in looking at the top million least visited websites. 
