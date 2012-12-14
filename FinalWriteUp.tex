@@ -348,7 +348,7 @@ of our analysis. Here is a summary of both of our analysis:
 These results are reassuring. They show that out of the 105984 distinct RSA
 moduli observed by our scraping we could not find any that were compromised.
 Unfortunately, due to a lack of time and resources (we ran analysis on six
-computers for approximately two weeks) we were only able to verify around 60 000
+computers for approximately two weeks) we were only able to verify around 60000
 of the moduli against the set of 105984. Our analysis is ongoing and therefore
 60000 is constantly increasing. 
 
@@ -373,7 +373,7 @@ moduli in the set of Lenstra et al. how many moduli should we expect to find?
 
 We would expect to find 212, and we found 0. Is this significant? Yes it is,
 because the chance of finding no broken moduli is $(.998)^{60 000} = 
-3.37\cdot10^{-44}$.
+6.7995\cdot10^{-53}$.
 
 However, there are many problems with this analysis. The largest being that we
 were only able to scrape a dataset with a size that's 1.66\% of that analyzed by
@@ -410,17 +410,16 @@ our dataset – a fact we did not. Now that we know we should expect 8 pairs in
 our dataset we need to calculate the probability of our findings. This code is
 seen in Appendix A.
 
-First we need to calculate the probability any given moduli should be broken. 
-$p = 8/105984= 7.73\cdot10^{-5}$
-But if we only completed analyzing 60000 moduli, how many should we find to be 
-broken? \#broken = $(7.73\cdot105)\cdot60000 = 3.86$ Let's round this up to a 
-probable 4 broken moduli. 
+First we need to calculate the probability any given moduli should be broken.
+$p = 8/105984= 7.73\cdot10^{-5}$ But if we only completed analyzing 60000
+moduli, how many should we find to be broken? \#broken = $(7.73\cdot10^{-5})
+\cdot60000 = 4.638$ Let's round this up to a probable 5 broken moduli. 
 
 Therefore we can say with confidence that 8 out of every 100000 should be
 broken in our smaller set and we should expect to find a little under 4 broken
 moduli in our analysis. Notice that this chance of pairs is based on the
 research of Lenstra et al. and yet gives us a substantially worse chance of
-finding broken moduli. We have a $0.0000755$ chance of finding a compromised
+finding broken moduli. We have a $0.0000773$ chance of finding a compromised
 moduli out of 105984 whereas their research found a 0.002 chance of finding a
 compromised moduli out of 6386984 moduli.
 
@@ -452,9 +451,9 @@ for so many of its domains really speaks to the security of this algorithm
 
 \section{Conclusion:}
 We did not find any moduli that did not offer security. What are the chances of
-this happening?  $p = (1-0.000075)^{50000} = 0.0235$
-There is a 2\% chance of not finding any moduli in our set, and therefore we can
-say with 98\% confidence that our findings show an improvement in RSA security
+this happening?  $p = (1-0.0000773)^{60000} = 0.00968$
+There is a 1\% chance of not finding any moduli in our set, and therefore we can
+say with 99\% confidence that our findings show an improvement in RSA security
 because we were unable to find any broken moduli.
 
 One possible explanation for this can be found in the bias of our domain names.
@@ -486,8 +485,8 @@ this incredibly feasible.
 utilities to collect X.509 certificates given a list of hosts.,language=ruby]
 {ssl_cert_scraper.rb}
 
-\lstinputlisting[caption=A Java class that takes the csv file of certificates and
-extracts all the useful information.,language=Java]
+\lstinputlisting[caption=A Java class that takes the csv file of certificates
+and extracts all the useful information.,language=Java]
 {code/data/FormatNewData.java}
 
 \lstinputlisting[caption=A Java class to get the random sample of moduli.
