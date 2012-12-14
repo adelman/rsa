@@ -198,7 +198,7 @@ deal with. The main functions we used from this library were the following:
 \ty{str2bigInt} which takes a string and a base that represents the big integer 
 and converts it for us. 
 \ty{inverseMod} which takes a big integer and a modulus as a big integer, and 
-returns the big integer that is the inverse if one exists,otherwise \ty{null}. 
+returns the big integer that is the inverse if one exists, otherwise \ty{null}. 
 \ty{mult} which has the obvious function of multiplying two big integers.
 \ty{greater} which returns a boolean depending on whether or not the first 
 argument is greater than the second.
@@ -217,15 +217,15 @@ $key$ is a modulus with an exponent, and the $message$ is something to be
 encrypted or decrypted depending on what $key$ with which we call \ty{crypt}.
 
 The next step for our implementation was getting everything to play nice with
-our web implementation (found here: \url{http://carmi.github.com/rsa/code/} ). The 
-method was to create some helper methods that would access the data from our 
-form, check for errors on input and
-even randomly generate pseudo-random primes based on a bit length. The code for
-these helper functions can be found in Appendix A. Some of the big ones are the
-\ty{gen} function which takes the information given in the form, tests for
-errors such as bad public exponents, or if the public exponent is not relatively
-prime to $\phi(n)$. We also have functions to encrypt and decrypt messages given
-that we have public and private keys entered into our form.
+our web implementation (found here: \url{http://carmi.github.com/rsa/code/} ).
+Our plan was to create some helper functions that would access the data from
+our form, check for errors on input and even randomly generate pseudo-random
+primes based on a bit length. The code for these helper functions can be found
+in Appendix A. Some of the big ones are the \ty{gen} function which takes the
+information given in the form, tests for errors such as bad public exponents,
+or if the public exponent is not relatively prime to $\phi(n)$. We also have
+functions to encrypt and decrypt messages given that we have public and private
+keys entered into our form.
 
 To ensure that future changes do not introduce bugs into our already working
 codebase we use tests. For our JavaScript implementation of RSA we used QUnit
@@ -340,6 +340,7 @@ of our findings. Here is a summary of both of our analyses:
 \item 14901 distinct primes
 \end{compactitem}
 
+\break
 \textbf{Us}
 \begin{compactitem}
 \item 105984 distinct RSA moduli
