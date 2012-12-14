@@ -12,11 +12,14 @@ public class statTest {
         //The following program is written to figure out the chances of getting
         //no pairs in our smaller set of moduli collected.
         //Lenstra et al. used 6 386 984 moduli and found 14901 distinct primes
-        int numTests = 10000;
+        int numTests = 100000;
         int lenstraSetSize = 6386984;
         int numberOfPairs = 14901*2;
         int ourSetSize = 105984;
         int[] numPairs = new int[numTests];
+        populateNegOne(numPairs);
+        
+        double sum = 0;
         for (int i = 0; i < numTests; i++) {
             int[] lenstraSet = new int[lenstraSetSize];
             populateZero(lenstraSet);
@@ -27,17 +30,13 @@ public class statTest {
             
             numPairs[i] = numPairs(ourSet);
             
+            sum += numPairs[i];
+            
             if (i % 100 == 0) {
                 System.out.println("Test number: " + i + " of " + numTests);
+                System.out.println("Average number of pairs: " + sum/i);
             }
         }
-        
-        double sum = 0;
-        for (int i = 0; i < numTests; i++) {
-            sum += numPairs[i];
-        }
-        
-        System.out.println("Average number of pairs: " + (sum/numTests));
     }
     
     public static void populatePairs(int[] arr, int numPairs) {
@@ -76,6 +75,12 @@ public class statTest {
     public static void populateZero(int[] arr) {
         for (int i = 0; i < arr.length; i++){
             arr[i] = 0;
+        }
+    }
+    
+    public static void populateNegOne(int[] arr) {
+        for (int i = 0; i < arr.length; i++){
+            arr[i] = -1;
         }
     }
     
