@@ -14,7 +14,7 @@ public class statTest {
         //Lenstra et al. used 6 386 984 moduli and found 14901 distinct primes
         int numTests = 10000;
         int lenstraSetSize = 6386984;
-        int numberOfPairs = 14901;
+        int numberOfPairs = 14901*2;
         int ourSetSize = 105984;
         int[] numPairs = new int[numTests];
         for (int i = 0; i < numTests; i++) {
