@@ -387,25 +387,28 @@ were to include the statistical probabilities of every group size the model
 would become too cumbersome and therefore analyzing the worst case scenario
 provides a good estimate.
 
-%Due to a lack of probability experience we have written a program that simulates
-%our statistical problem and determines the expected number of pairs. The program
-%runs as follows:
-%-	Populate an array of size 6 386 984 with 0s
-%-	Loop 14901 times. Each time randomly assigning two unassigned elements to be
-%a and negative a. These will act as the pairs of moduli that share a prime.
-%-	Create another array of size 105 984 and populate it with a random selection
-%from the first array.
-%-	Count the number of pairs in the new array
-%This program was run 100 000 times and found that, on average, there are 8.188
-%pairs in the second array. Meaning that we should expect to find at 8 pairs in
-%our dataset –a fact we did not. Now that we know we should expect 8 pairs in our
-%dataset we need to calculate the probability of our findings\.
+Due to a lack of probability experience we have written a program that simulates
+our statistical problem and determines the expected number of pairs. The program
+runs as follows:
+\begin{compactitem}
+\item Populate an array of size 6386984 with 0s
+\item Loop 14901 times. Each time randomly assigning two unassigned elements to
+be a and negative a. These will act as the pairs of moduli that share a prime.
+\item Create another array of size 105984 and populate it with a random 
+selection from the first array.
+\item Count the number of pairs in the new array
+\end{compactitem}
+This program was run 100000 times and found that, on average, there are 8.188
+pairs in the second array. Meaning that we should expect to find at 8 pairs in
+our dataset – a fact we did not. Now that we know we should expect 8 pairs in 
+our dataset we need to calculate the probability of our findings. This code is
+seen in Appendix A.
 
 First we need to calculate the probability any given moduli should be broken. 
 $p = 8/105 984= 7.73\cdot105$
-But if we only completed analyzing 50000 moduli, how many should we find to be broken?
-\#broken = $(7.73\cdot105)\cdot50000 = 3.86$
-Let's round this up to a probable 4 broken moduli. 
+But if we only completed analyzing 50000 moduli, how many should we find to be 
+broken? \#broken = $(7.73\cdot105)\cdot50000 = 3.86$ Let's round this up to a 
+probable 4 broken moduli. 
 
 Therefore we can say with confidence that 8 out of every 100000 should be
 broken in our smaller set and we should expect to find a little under 4 broken
@@ -487,6 +490,9 @@ extracts all the useful information.,language=Java]
 \lstinputlisting[caption=A Java class that reads in two files containing our
 moduli and other information and prints out a prime if we find one between two
 moduli.,language=Java]{code/data/RandomSampleCheck.java}
+
+\lstinputlisting[caption=A Java class that simulates the probable number of
+pairs of bad moduli we should have found.]{code/statTest.java}
 
 
 \end{document}
