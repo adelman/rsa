@@ -239,7 +239,7 @@ exponents get very large, very quickly.
 \section{Data Collection:}
 Any analysis of RSA certificates requires a set of data with which to test. For
 our project we needed a large set of data so as to best mimic the data that
-Lenstra et al used in their analysis of public keys. Lenstra et al stated in
+Lenstra used in their analysis of public keys. Lenstra stated in
 their paper that they used the Electronic Frontier Foundation's SSL Observatory
 - \url{https://www.eff.org/observatory}. We initially looked at the SSL
 Observatory as a possibly source of data for our project. However,
@@ -270,24 +270,23 @@ and tried a few common subdomains to improve our rate of responses to over 12\%.
 Out of the 1000000 domains we received 125723 X.509 certificates each containing
 a moduli. This was the source of our data for our experiments.
 
-In order to deal with our large directory of certificates we needed combine them
-into
-a single csv that-for the sake of efficiency-discards all the impertinent data.
-We wrote a parsing program in Java that reads in every file and parses it into a
-combined csv file. The biggest challenge with dealing with the certificates was
-handling the exceptions that inevitably arise when dealing with large numbers of
-only-mostly standardized data. 
+In order to deal with our large directory of certificates we needed combine
+them into a single csv that for the sake of efficiency discards all the
+impertinent data.  We wrote a parsing program in Java that reads in every file
+and parses it into a combined csv file. The biggest challenge with dealing with
+the certificates was handling the exceptions that inevitably arise when dealing
+with large numbers of only mostly standardized data. 
 
-Once we had all of the certs in a csv file. The next step was to parse out the
-information we needed. Since the modulus was in a different column for each cert
-file, therefore it was in a different column for each line in the csv file.
-However, there was the unique character pattern ``$)$Modulus $($'' on each line
-of the file. Therefore we could match for that using the \ty{substring} method 
-of the \ty{String} class in Java. Once we had that, we stripped the modulus of 
-all extraneous characters such as white space and colons. Then since all of the
-other information we needed in the csv file was before the modulus, we just used
-a \ty{split(``,'')} on the line to split around commas and easily obtained the
-domain name, and a unique identifier for each modulus.
+Once we had all of the certificates in a csv file, the next step was to parse
+out the information we needed. Since the modulus was in a different column for
+each certificate file, therefore it was in a different column for each line in
+the csv file.  However, there was the unique character pattern \ty{``$)$Modulus$($''} on each line of the file. Therefore we could match for that using the
+\ty{substring} method of the \ty{String} class in Java. Once we had that, we
+stripped the modulus of all extraneous characters such as white space and
+colons. Then since all of the other information we needed in the csv file was
+before the modulus, we just used a \ty{split(``,'')} on the line to split
+around commas and easily obtained the domain name, and a unique identifier for
+each modulus.
 
 Finally we needed code to create a random sample of moduli to more swiftly run
 an analysis on. We also wanted to make sure that these moduli were unique. We
@@ -315,10 +314,10 @@ allocate memory to the virtual machine. The default JVM heap space is not large
 enough to read in the files we were working with (some of which were over 100MB)
 so we allocated extra memory with the \ty{java -Xmx2g} option which allocates an
 extra 2GB of data to the virtual machine. We probably did not need this much
-more allocated, but it was just as a precaution.
+more allocated, but it was used just as a precaution.
 
 The algorithm was designed to overlook all of moduli that are the same, because
-while that is interesting information, it gave us no additional data. If the
+while this is interesting information, it gave us no additional data. If the
 algorithm came across two moduli $n,m$ such that $n \neq m$ and $\gcd(n,m) \neq
 1$ then we know we have a prime in common and have factored the modulus,
 rendering it insecure. Once it finds one, it prints out the $\gcd$, the unique
@@ -487,7 +486,7 @@ this incredibly feasible.
 utilities to collect X.509 certificates given a list of hosts.,language=ruby]
 {ssl_cert_scraper.rb}
 
-\lstinputlisting[caption=A Java class that takes the csv file of certs and
+\lstinputlisting[caption=A Java class that takes the csv file of certificates and
 extracts all the useful information.,language=Java]
 {code/data/FormatNewData.java}
 
