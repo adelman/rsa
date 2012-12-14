@@ -109,7 +109,7 @@ Matt Adelman\\Evan Carmi\\Adam Forbes
 \section{History:}
 \lettrine[nindent=0em,lines=3]{R} SA is a public key encryption algorithm 
 developed by Ron Rivest, Adi Shamir, 
-and Leonard Adleman at MIT in 1977. Rivest and Shamir are both computer
+and Leonard Adleman at MIT in 1977. Rivest and Shamir were both computer
 scientists that were working on an ``unbreakable'' public key encryption method.
 Rivest and Shamir worked on many different codes, and would pose them as a
 challenge to Adleman. Forty two of these codes were presented, and Adleman broke
@@ -121,9 +121,10 @@ not released until 1997. The RSA algorithm was released for public domain in
 
 The algorithm operates by using two distinct, large prime numbers to generate
 public and private keys. Anyone can use the public key to encrypt a message, but
-only someone with the private key can decrypt it. The algorithm is hard to
-break, because if the prime numbers are large enough, the factorization is
-exponential in time. 
+only someone with the private key can decrypt it. Breaking the RSA requires
+factorization of the prime numbers used to create the keys. Since all known
+prime factorization algorithms are exponential in time, if the prime numbers
+are large enough RSA is secure.
 
 \section{Original Ideas:}
 When we first started out with this project, our ideas were fairly
