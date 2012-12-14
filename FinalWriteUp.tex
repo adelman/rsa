@@ -12,8 +12,9 @@
 
 % ------
 % Page layout
-\usepackage[hmarginratio=1:1,top=32mm,columnsep=30pt,margin=1in]{geometry}
+\usepackage[hmarginratio=1:1,top=32mm,columnsep=40pt,margin=1in]{geometry}
 \usepackage[font=it]{caption}
+\usepackage{paralist}
 \usepackage{multicol}
 
 % ------
@@ -138,6 +139,43 @@ create a sufficient implementation, to recreating the experiments from the paper
 and attempting to find some bad moduli of our own.
 
 \section{Lit Review:}
+As stated earlier, “Ron was Wrong, Whit is Right” was not the initial focus of
+our project. However, upon further reading and the study of Lenstra et al.
+proved to be instrumental in the direction of our project. The paper was
+published on February 12, 2012 and created a splash in the field of
+cryptography. Its most influential discovery was that two out of every thousand
+RSA moduli offer no security at all. Leading to the conclusion that RSA offers a
+disconcertingly inadequate 99.8\% security. This was discovered by utilizing the
+Euclidean Algorithm and running it against their huge dataset of certificates in
+order to find moduli with shared primes.
+
+Their findings were shocking to us. We were inspired to recreate their
+experiments on the state of the web nine months later in the hopes of finding
+one of two possible conclusions. Either we find broken moduli or we find none.
+The former would imply a lack of real-world implementation despite the influence
+of their paper. The latter would indicate an improvement of online security
+since the data collection of Lenstra et al. However, in order to begin our
+recreation we needed to first review their work which will be summarized below.
+
+They gathered their data from a collection of public-key databases. Of these the
+two most significant databases being the SSL Observatory (a project run by the
+Electronic Frontier Foundation) and one  from Massachusetts Institute of
+Technology. Their method of collection differed greatly from ours as they “did
+not engage in web crawling, extensive ssh-session monitoring, or other data
+activities that may be perceived as intrusive or aggressive”, a philosophy we
+did not share. Their research led them to spend a long time discussing the
+differences between the public keys they collected and the security differences
+between them. They did extensive clustering of moduli to describe them as a
+graph. However, many of their findings are only tangentially related to the work
+we have done and therefore will be left out of this section.
+
+The most pertinent information we are concerned with lies in the size of their
+final dataset and the number of compromised RSA moduli agnostic of the types of
+certificates they came from. They collected 11 666 704 public keys of which 6
+386 984 had distinct RSA moduli with the rest being split evenly between ElGamal
+and DSA. Of these 6 386 984 moduli they found 12934 different ones which could
+be factored by 14901 distinct primes and were therefore compromised.
+
 
 \section{Algorithm Implementation:}
 For our implementation, we chose JavaScript as our environment because of its
@@ -226,8 +264,12 @@ and tried a few common subdomains to improve our rate of responses to over 12\%.
 Out of the 1000000 domains we received 125723 X.509 certificates each containing
 a moduli. This was the source of our data for our experiments.
 
-Once we had all of this data, we first needed to put it into a usable format:
-%%%%FORBES TALKS ABOUT THAT%%%%
+In order to with our large directory of certificates we needed combine them into
+a single csv that –for the sake of efficiency—discards all the impertinent data.
+We wrote a parsing program in java that reads in every file and parses it into a
+combined csv file. The biggest challenge with dealing with the certificates was
+handling the exceptions that inevitably arise when dealing with large numbers of
+only-mostly standardized data. 
 
 Once we had all of the certs in a csv file. The next step was to parse out the
 information we needed. Since the modulus was in a different column for each cert
@@ -278,6 +320,100 @@ which returns true if there is less than a $2^{-80}$ chance that the $\gcd$ is
 composite. We then can use this data to try and factor the modulus.
 
 \section{Analysis of Data:}
+Using the results of Lenstra et al. we shall attempt to analyze the significance
+of our analysis. Here is a summary of both of our analysis:
+
+\textbf{Lenstra et al.}
+\begin{compactitem}
+\item 11666704 public keys
+\item 6386984 distinct RSA moduli
+\item 12934 distinct broken moduli
+\item 14901 distinct primes
+\end{compactitem}
+
+\textbf{Us}
+\begin{compactitem}
+\item 105984 distinct RSA moduli
+\item $\sim$60000 moduli analyzed
+\item 0 broken moduli
+\item 0 primes
+\end{compactitem}
+
+These results are reassuring. They show that out of the 105984 distinct RSA
+moduli observed by our scraping we could not find any that were compromised.
+Unfortunately, due to a lack of time and resources (we ran analysis on six
+computers for approximately two weeks) we were only able to verify around 60 000
+of the moduli against the set of 105984. Our analysis is ongoing and therefore
+60000 is constantly increasing. 
+
+The set of 60000 were spread over six clusters arranged alphabetically on their
+url. We will assume that these were chosen randomly as the original list of the
+top 1 million domain names was outputted alphabetically and not by ranking. In
+addition to this prefixes to domains and subdomains further splits up the set of
+certificates collected. 
+
+Our first attempt at calculating the statistical significance of our results was
+to ask the following question: if there is a .002 chance of finding a broken
+moduli in the set of Lenstra et al. how many moduli should we expect to find?
+
+\begin{compactitem}
+\item Let $n$ be the size of our sample set of distinct moduli
+\item Let $p$ be the probability of finding a broken moduli
+\item Let $m$ be the expected number of broken moduli
+\item $np = m$
+\item $105984 \cdot .002 = 212$
+\end{compactitem}
+
+
+We would expect to find 212, and we found 0. Is this significant? Yes it is,
+because the chance of finding no broken moduli is $(.998)^{50 000} = 
+3.37\cdot10^{-44}$.
+
+However, there are many problems with this analysis. The largest being that we
+were only able to scrape a dataset with a size that's 1.66\% of that analyzed by
+Lenstra et al. This wouldn't be a large problem if you could identify the broken
+moduli by themselves, but by the very nature of our analysis you need to run the
+Euclidean Algorithm on every single moduli against every other moduli, hence the
+unsurpassable amount of time and computing power required to factor the moduli.
+This means that the chances of finding a broken moduli scale very badly with a
+smaller sample size. 
+
+Lenstra et al. found a large range of compromised moduli clusters. However, for
+this analysis let's assume the worst case: every modulus has a pair that shares
+a prime. In the case of the research done by Lenstra et al. we have 14901
+distinct primes and therefore a total of 29802 pairs. This is no the actual case
+because their research shows clusters of moduli that share the same prime. If we
+were to include the statistical probabilities of every group size the model
+would become too cumbersome and therefore analyzing the worst case scenario
+provides a good estimate.
+
+%Due to a lack of probability experience we have written a program that simulates
+%our statistical problem and determines the expected number of pairs. The program
+%runs as follows:
+%-	Populate an array of size 6 386 984 with 0s
+%-	Loop 14901 times. Each time randomly assigning two unassigned elements to be
+%a and negative a. These will act as the pairs of moduli that share a prime.
+%-	Create another array of size 105 984 and populate it with a random selection
+%from the first array.
+%-	Count the number of pairs in the new array
+%This program was run 100 000 times and found that, on average, there are 8.188
+%pairs in the second array. Meaning that we should expect to find at 8 pairs in
+%our dataset –a fact we did not. Now that we know we should expect 8 pairs in our
+%dataset we need to calculate the probability of our findings\.
+
+First we need to calculate the probability any given moduli should be broken. 
+$p = 8/105 984= 7.73\cdot105$
+But if we only completed analyzing 50000 moduli, how many should we find to be broken?
+\#broken = $(7.73\cdot105)\cdot50000 = 3.86$
+Let's round this up to a probable 4 broken moduli. 
+
+Therefore we can say with confidence that 8 out of every 100000 should be
+broken in our smaller set and we should expect to find a little under 4 broken
+moduli in our analysis. Notice that this chance of pairs is based on the
+research of Lenstra et al. and yet gives us a substantially worse chance of
+finding broken moduli. We have a $0.0000755$ chance of finding a compromised
+moduli out of 105984 whereas their research found a 0.002 chance of finding a
+compromised moduli out of 6386984 moduli.
 
 \section{Problems:}
 
@@ -306,16 +442,29 @@ had to throw out a lot of same data. The fact that Google uses the same moduli
 for so many of its domains really speaks to the security of this algorithm
 
 \section{Conclusion:}
+We did not find any moduli that did not offer security. What are the chances of
+this happening?  $p = (1-0.000075)^{50000} = 0.0235$
+There is a 2\% chance of not finding any moduli in our set, and therefore we can
+say with 98\% confidence that our findings show an improvement in RSA security
+because we were unable to find any broken moduli.
+
+One possible explanation for this can be found in the bias of our domain names.
+We scraped from the top million most trafficked websites online, and therefore
+one can hypothesize that there is a lot of overlap between this list and the
+list of most maintained websites online. The highest probability of finding a
+bad modulus may lie in looking at the top million least visited websites. 
+
 
 \section{Further Research:}
-
-With the data we collected, including the older 2010 data dump from the SSL
-Observatory, we have a large set of moduli. We discussed the possibility of
-creating a service that would check any new moduli against the entire every
-seen set of moduli to ensure there are never duplicates. This would, in effect,
-allow us verify that certificates are safe prior to them being used by
-websites. In fact, we hope that some certificate authorities are already doing
-this to ensure that within their own network of certificates there are no
+The first priority would be to collect a larger dataset of moduli closer to that
+of Lenstra et al. as it would greatly improve the statistical significance of
+our research. With the data we collected, including the older 2010 data dump 
+from the SSL Observatory, we have a large set of moduli. We discussed the 
+possibility of creating a service that would check any new moduli against the 
+entire every seen set of moduli to ensure there are never duplicates. This 
+would, in effect, allow us verify that certificates are safe prior to them being
+used by websites. In fact, we hope that some certificate authorities are already
+doing this to ensure that within their own network of certificates there are no
 duplicates. The fact that $\gcd$ is so fast makes a database, and a test like
 this incredibly feasible.
 
