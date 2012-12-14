@@ -182,36 +182,36 @@ certificates they came from. They collected 11666704 public keys of which
 ElGamal and DSA. Of these 6386984 moduli they found 12934 different ones which
 could be factored by 14901 distinct primes and were therefore compromised.
 
-
 \section{Algorithm Implementation:}
 For our implementation, we chose JavaScript as our environment because of its
 ease for web development. We really wanted to end up with something that we
 could show off and display in a public setting. The code to the implementation
 of our RSA algorithm can be found in Appendix A. For our implementation, we
-relied heavily on the BigInt library found here:
-\url{http://leemon.com/crypto/BigInt.js}.  While there were other BigInt
-libraries, out there but this is the one that had all of the functions we
-needed, and was implemented in an easy format for us to deal with. The main
-functions we used from this library were \ty{str2bigInt} which takes a string
-and a base that represents the big integer and converts it for us. We also used
-\ty{inverseMod} which takes a big integer and a modulus as a big integer, and
-returns the big integer that is the inverse if one exists, otherwise \ty{null}.
-We also used \ty{mult} which has the obvious function of multiplying two big
-integers. We also have \ty{greater} which returns a boolean depending on
-whether or not the first argument is greater than the second. We also used
-\ty{modPow(a,b,c)} which takes three big integers and returns $a^b
-\mod c$.  
-The last function we used from Leemon was \ty{addInt} which takes a big integer
-and an integer and adds the integer to the big integer. This was used in the
-computation of $\phi(n)$. The functions we created are as follows:
+relied heavily on the BigInt library found here: 
+http://leemon.com/crypto/BigInt.js.
+While there were other BigInt libraries, out there but this is the one that had
+all of the functions we needed, and was implemented in an easy format for us to
+deal with. The main functions we used from this library were the following:
+\ty{str2bigInt} which takes a string and a base that represents the big integer 
+and converts it for us. 
+\ty{inverseMod} which takes a big integer and a modulus as a big integer, and 
+returns the big integer that is the inverse if one exists,otherwise \ty{null}. 
+\ty{mult} which has the obvious function of multiplying two big integers.
+\ty{greater} which returns a boolean depending on whether or not the first 
+argument is greater than the second.
+\ty{modPow(a,b,c)} which takes three big integers and returns $a^b \mod c$.  
+\ty{addInt} which takes a big integer and an integer and adds the integer to 
+the big integer. This was used in the computation of $\phi(n)$. 
+
+The functions we created are as follows:
 \ty{generate\_key(p:String, q:String, e:String) = [[n:BigInt, e:BigInt],
 [n:BigInt, d:BigInt]]} where $p$ and $q$ are our distinct primes and $e$ is the
 public exponent all represented as strings. We then return $n$ which is the
 modulus, with $n = pq$. Together with $e$ the public exponent and $d$ the
-private exponent. These together make up our keys. The second function we
-created is \ty{crypt(key:[BigInt,BigInt], message:BigInt) = message$'$:BigInt}
-where the $key$ is a modulus with an exponent, and the $message$ is something to
-be encrypted or decrypted depending on what $key$ with which we call \ty{crypt}.
+private exponent. These together make up our keys.
+\ty{crypt(key:[BigInt,BigInt], message:BigInt) = message$'$:BigInt} where the 
+$key$ is a modulus with an exponent, and the $message$ is something to be 
+encrypted or decrypted depending on what $key$ with which we call \ty{crypt}.
 
 The next step for our implementation was getting everything to play nice with
 our web implementation (found here: \url{http://carmi.github.com/rsa/code/} ). The 
