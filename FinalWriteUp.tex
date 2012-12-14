@@ -102,12 +102,15 @@ Matt Adelman\\Evan Carmi\\Adam Forbes
 \newpage
 
 \begin{abstract}
-The algorithm RSA is the most widely implemented in the world. It has long been
-a question of study whether or not this algorithm was entirely secure. In
-principle it is, because the difficulty of factoring primes, but once you gather
-a lot of data, that security could change. In this paper we aim to examine the
-security of a percentage of the top 1000000 websites by attempting to factor
-their public key moduli through use of the Euclidean algorithm.
+\noindent The algorithm RSA is one of the most widely implemented algorithms in the
+world. The security of RSA implementations has long been a question of study.
+In this paper we aim to examine a vulnerability in public keys of RSA found be
+Lenstra et al. which states that RSA offers only a 99.8\% security because of
+poorly generated prime numbers. We collect data on the top 1 million websites
+and attempt to reanalyze this claim.
+\\
+\\
+\textbf{Keywords:} RSA, security, prime numbers,  Euclidean algorithm, factoring, data collection
 \end{abstract}
 
 \begin{multicols}{2}
@@ -329,8 +332,6 @@ composite. We then can use this data to try and factor the modulus.
 Using the results of Lenstra we analyzed the significance
 of our findings. Here is a summary of both of our analyses:
 
-\break
-
 \textbf{Lenstra et al.}
 \begin{compactitem}
 \item 11666704 public keys
@@ -497,6 +498,9 @@ and extracts all the useful information.,language=Java]
 \lstinputlisting[caption=A Java class that reads in two files containing our
 moduli and other information and prints out a prime if we find one between two
 moduli.,language=Java]{code/data/RandomSampleCheck.java}
+
+
+\pagebreak
 
 \lstinputlisting[caption=A Java class that simulates the probable number of
 pairs of bad moduli we should have found.]{code/statTest.java}
