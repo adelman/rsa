@@ -8,6 +8,7 @@
 \linespread{1.05} % Palatino needs more space between lines
 \usepackage{microtype}
 
+\usepackage{hyperref}
 \usepackage{textcomp}
 
 % ------
@@ -187,18 +188,18 @@ For our implementation, we chose JavaScript as our environment because of its
 ease for web development. We really wanted to end up with something that we
 could show off and display in a public setting. The code to the implementation
 of our RSA algorithm can be found in Appendix A. For our implementation, we
-relied heavily on the BigInt library found here: 
-http://leemon.com/crypto/BigInt.js.
-While there were other BigInt libraries, out there but this is the one that had
-all of the functions we needed, and was implemented in an easy format for us to
-deal with. The main functions we used from this library were \ty{str2bigInt}
-which takes a string and a base that represents the big integer and converts it
-for us. We also used \ty{inverseMod} which takes a big integer and a modulus as
-a big integer, and returns the big integer that is the inverse if one exists,
-otherwise \ty{null}. We also used \ty{mult} which has the obvious function of
-multiplying two big integers. We also have \ty{greater} which returns a boolean
-depending on whether or not the first argument is greater than the second. We
-also used \ty{modPow(a,b,c)} which takes three big integers and returns $a^b
+relied heavily on the BigInt library found here:
+\url{http://leemon.com/crypto/BigInt.js}.  While there were other BigInt
+libraries, out there but this is the one that had all of the functions we
+needed, and was implemented in an easy format for us to deal with. The main
+functions we used from this library were \ty{str2bigInt} which takes a string
+and a base that represents the big integer and converts it for us. We also used
+\ty{inverseMod} which takes a big integer and a modulus as a big integer, and
+returns the big integer that is the inverse if one exists, otherwise \ty{null}.
+We also used \ty{mult} which has the obvious function of multiplying two big
+integers. We also have \ty{greater} which returns a boolean depending on
+whether or not the first argument is greater than the second. We also used
+\ty{modPow(a,b,c)} which takes three big integers and returns $a^b
 \mod c$.  
 The last function we used from Leemon was \ty{addInt} which takes a big integer
 and an integer and adds the integer to the big integer. This was used in the
@@ -213,7 +214,7 @@ where the $key$ is a modulus with an exponent, and the $message$ is something to
 be encrypted or decrypted depending on what $key$ with which we call \ty{crypt}.
 
 The next step for our implementation was getting everything to play nice with
-our web implementation (found here: http://carmi.github.com/rsa/code/ ). The 
+our web implementation (found here: \url{http://carmi.github.com/rsa/code/} ). The 
 method was to create some helper methods that would access the data from our 
 form, check for errors on input and
 even randomly generate pseudo-random primes based on a bit length. The code for
@@ -238,17 +239,17 @@ exponents get very large, very quickly.
 \section{Data Collection:}
 Any analysis of RSA certificates requires a set of data with which to test. For
 our project we needed a large set of data so as to best mimic the data that
-Lenstra et al used in their analysis of public keys. Lenstra et al stated in 
+Lenstra et al used in their analysis of public keys. Lenstra et al stated in
 their paper that they used the Electronic Frontier Foundation's SSL Observatory
-- https://www.eff.org/observatory. We initially looked at the SSL Observatory as
-a possibly source of data for our project. However, unfortunately the SSL
-Observatory has not been updated in a few years. Furthermore, it includes no
-complete guide on how to use its source, and is simply a collection of python
-scripts that interact with a \ty{MySQL} database in distinct ways. Thus, we were
-unable to successfully use the SSL Observatory source code as a means to gather
-RSA public keys. However, there exists data dumps from the SSL Observatory from
-2010. We gathered this data, available through \ty{bittorrent}, and used it as a
-starting point.
+- \url{https://www.eff.org/observatory}. We initially looked at the SSL
+Observatory as a possibly source of data for our project. However,
+unfortunately the SSL Observatory has not been updated in a few years.
+Furthermore, it includes no complete guide on how to use its source, and is
+simply a collection of python scripts that interact with a \ty{MySQL} database
+in distinct ways. Thus, we were unable to successfully use the SSL Observatory
+source code as a means to gather RSA public keys. However, there exists data
+dumps from the SSL Observatory from 2010. We gathered this data, available
+through \ty{bittorrent}, and used it as a starting point.
 
 In order to see the effectiveness and change since the Lenstra paper was
 published in early 2012 we needed to scrap for fresh data. (The paper briefly
